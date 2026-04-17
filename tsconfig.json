@@ -4,9 +4,17 @@
     "module": "commonjs",
     "target": "es2023",
     "esModuleInterop": true,
-    "allowJs": true
+    "allowJs": true,
+    "types": [
+      "jest",
+      "node"
+    ]
   },
   "exclude": [
     "node_modules"
+  ],
+  "include": [
+    "src",
+    "**/*.ts"
   ]
 }

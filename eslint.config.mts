@@ -14,4 +14,10 @@ export default defineConfig([
       globals: globals.node,
     },
   },
+  {
+    files: ['jest.config.js'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
 ]);
