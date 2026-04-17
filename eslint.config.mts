@@ -13,6 +13,11 @@ export default defineConfig([
     languageOptions: {
       globals: globals.node,
     },
+    rules: {
+      "@typescript-eslint/class-methods-use-this": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+    },
   },
   {
     files: ['jest.config.js'],
