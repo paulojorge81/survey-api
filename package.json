@@ -4,7 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src --max-warnings=0",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,js}": [
+      "yarn lint --fix"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -21,7 +28,9 @@
     "eslint-plugin-promise": "^6.6.0",
     "git-commit-msg-linter": "^5.0.8",
     "globals": "^17.5.0",
+    "husky": "^9.1.7",
     "jiti": "^2.6.1",
+    "lint-staged": "^16.4.0",
     "typescript": "^6.0.2",
     "typescript-eslint": "^8.58.2"
   }
