@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint src --max-warnings=0",
-    "test:staged": "jest",
+    "test:staged": "jest --passWithNoTests",
     "prepare": "husky"
   },
   "lint-staged": {

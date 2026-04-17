@@ -11,6 +11,10 @@ const config = {
   collectCoverageFrom: ['<rootDir>/src/**/*'],
   coverageDirectory: "coverage",
   coverageProvider: "v8",
+  testMatch: [
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ],
   transform: {
     '.+\\.ts$': 'ts-jest'
   }
