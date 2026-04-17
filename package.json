@@ -6,11 +6,13 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint src --max-warnings=0",
+    "test:staged": "jest",
     "prepare": "husky"
   },
   "lint-staged": {
     "src/**/*.{ts,js}": [
-      "yarn lint --fix"
+      "yarn lint --fix",
+      "pnpm test:staged"
     ]
   },
   "keywords": [],
