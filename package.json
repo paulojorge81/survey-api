@@ -11,8 +11,18 @@
   "license": "ISC",
   "packageManager": "pnpm@10.32.1",
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/node": "^25.6.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "eslint": "^10.2.0",
+    "eslint-config-love": "^153.0.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-n": "^15.7.0",
+    "eslint-plugin-promise": "^6.6.0",
     "git-commit-msg-linter": "^5.0.8",
-    "typescript": "^6.0.2"
+    "globals": "^17.5.0",
+    "jiti": "^2.6.1",
+    "typescript": "^6.0.2",
+    "typescript-eslint": "^8.58.2"
   }
 }
