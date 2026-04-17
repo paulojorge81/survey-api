@@ -1,4 +1,5 @@
 import { HttpStatusCode } from "../http/http-status-code";
+import type { HttpResponse } from "../protocols/http";
 import { SignUpController } from "./signup";
 
 
@@ -15,7 +16,7 @@ describe('SignUp Controller', () => {
         passwordConfirmation: 'any_password'
       }
     }
-    const httpResponse: any = sut.handle(httpRequest);
+    const httpResponse: HttpResponse = sut.handle(httpRequest);
     expect(httpResponse.statusCode).toBe(HttpStatusCode.BAD_REQUEST);
     expect(httpResponse.body).toEqual(new Error("Missing param: name"));
   });
@@ -30,7 +31,7 @@ describe('SignUp Controller', () => {
         passwordConfirmation: 'any_password'
       }
     }
-    const httpResponse: any = sut.handle(httpRequest);
+    const httpResponse: HttpResponse = sut.handle(httpRequest);
     expect(httpResponse.statusCode).toBe(HttpStatusCode.BAD_REQUEST);
     expect(httpResponse.body).toEqual(new Error("Missing param: email"));
   });
