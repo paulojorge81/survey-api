@@ -1,7 +1,6 @@
 import { InvalidParamError, MissingParamError, ServerError } from "../errors";
 import { HttpStatusCode } from "../http/http-status-code";
-import type { EmailValidator } from "../protocols/email-validator";
-import type { HttpResponse } from "../protocols/http";
+import type { EmailValidator, HttpResponse } from "../protocols";
 import { SignUpController } from "./signup";
 
 // sut = system under test
