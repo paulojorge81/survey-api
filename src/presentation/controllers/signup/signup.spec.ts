@@ -1,9 +1,7 @@
-import type { AccountModel } from "../../domain/models/account";
-import type { AddAccount, AddAccountModel } from "../../domain/usecases/add-account";
-import { InvalidParamError, MissingParamError, ServerError } from "../errors";
-import { HttpStatusCode } from "../http/http-status-code";
-import type { EmailValidator, HttpResponse } from "../protocols";
+import { InvalidParamError, MissingParamError, ServerError } from "../../errors";
+import { HttpStatusCode } from "../../http/http-status-code";
 import { SignUpController } from "./signup";
+import type { AccountModel, AddAccount, AddAccountModel, EmailValidator, HttpResponse } from "./signup-protocols";
 
 // sut = system under test
 
