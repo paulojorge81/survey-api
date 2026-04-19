@@ -1,4 +1,4 @@
-import { ServerError } from "../errors/server-error";
+import { ServerError } from "../errors";
 import { HttpStatusCode } from "../http/http-status-code";
 import type { HttpResponse } from "../protocols/http";
 
