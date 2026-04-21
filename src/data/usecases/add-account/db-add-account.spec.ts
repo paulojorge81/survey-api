@@ -56,7 +56,7 @@ describe('DbAddAccount Usecase', () => {
 
   test('Should throw if Encrypter throws', async () => {
     const { sut, encryptStub } = makeSut()
-    jest.spyOn(encryptStub, 'encrypt').mockReturnValueOnce(Promise.reject(new Error))
+    jest.spyOn(encryptStub, 'encrypt').mockReturnValueOnce(Promise.reject(new Error()))
     const accountData = {
       name: 'valid_name',
       email: 'valid_email@mail.com',
@@ -86,7 +86,7 @@ describe('DbAddAccount Usecase', () => {
 
   test('Should throw if AddAccountRepository throws', async () => {
     const { sut, addAccountRepositoryStub } = makeSut()
-    jest.spyOn(addAccountRepositoryStub, 'add').mockReturnValueOnce(Promise.reject(new Error))
+    jest.spyOn(addAccountRepositoryStub, 'add').mockReturnValueOnce(Promise.reject(new Error()))
     const accountData = {
       name: 'valid_name',
       email: 'valid_email@mail.com',
