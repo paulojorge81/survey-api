@@ -11,6 +11,7 @@ const config = {
   collectCoverageFrom: ['<rootDir>/src/**/*'],
   coverageDirectory: "coverage",
   coverageProvider: "v8",
+  preset: '@shelf/jest-mongodb',
   testMatch: [
     "**/*.spec.ts",
     "**/*.test.ts"

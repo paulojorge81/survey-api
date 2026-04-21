@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "./dist",
     "module": "commonjs",
-    "target": "es2023",
+    "target": "ES2023",
     "esModuleInterop": true,
     "allowJs": true,
     "types": [
@@ -16,6 +16,8 @@
   "include": [
     "src",
     "**/*.ts",
-    "eslint.config.mts"
+    "eslint.config.mts",
+    "jest-mongodb-config.js",
+    "jest.config.js"
   ]
 }
