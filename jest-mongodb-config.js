@@ -1,7 +1,7 @@
 export default {
   mongodbMemoryServerOptions: {
     binary: {
-      version: '8.2',
+      version: '7.0.14',
       skipMD5: true,
     },
     autoStart: false,
