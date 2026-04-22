@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start:dev": "sucrase-node src/main/server.ts",
     "lint": "eslint src --max-warnings=0",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:verbose": "jest --passWithNoTests",
@@ -27,6 +28,7 @@
     "@eslint/js": "^10.0.1",
     "@shelf/jest-mongodb": "^6.0.2",
     "@types/bcrypt": "^6.0.0",
+    "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
     "@types/mongodb": "^4.0.7",
     "@types/node": "^25.6.0",
@@ -43,12 +45,14 @@
     "jest": "^30.3.0",
     "jiti": "^2.6.1",
     "lint-staged": "^16.4.0",
+    "sucrase": "^3.35.1",
     "ts-jest": "^29.4.9",
     "typescript": "^6.0.2",
     "typescript-eslint": "^8.58.2"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "express": "^5.2.1",
     "mongodb": "^7.2.0",
     "validator": "^13.15.35"
   }
