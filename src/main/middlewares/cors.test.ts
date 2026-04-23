@@ -2,10 +2,10 @@ import request from 'supertest';
 import { app } from '../config/app';
 
 describe('CORS Middlewares', () => {
-  test('Should parse body as json', async () => {
+  test('Should enable CORS', async () => {
     const route = '/test_cors'
-    app.post(route, (req, res) => {
-      res.send(req.body)
+    app.get(route, (req, res) => {
+      res.send()
     });
     await request(app).get(route)
       .expect('access-control-allow-origin', '*')
