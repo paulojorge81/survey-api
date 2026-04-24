@@ -3,7 +3,7 @@ import { badRequest } from "../../helpers/http-helper";
 import { HttpStatusCode } from "../../http/http-status-code";
 import type { Controller, HttpRequest, HttpResponse } from "../../protocols";
 
-export class Login implements Controller {
+export class LoginController implements Controller {
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
 
     if (!httpRequest.body.email) {
