@@ -10,6 +10,10 @@ export class Login implements Controller {
       return badRequest(new MissingParamError('email'))
     }
 
+    if (!httpRequest.body.password) {
+      return badRequest(new MissingParamError('password'))
+    }
+
     return await Promise.resolve({
       statusCode: HttpStatusCode.SUCCESS,
       body: null
