@@ -1,6 +1,5 @@
 import { InvalidParamError, MissingParamError } from "../../errors";
-import { badRequest, serverError, unauthorized } from "../../helpers/http-helper";
-import { HttpStatusCode } from "../../http/http-status-code";
+import { badRequest, ok, serverError, unauthorized } from "../../helpers/http-helper";
 import type { Authentication, Controller, EmailValidator, HttpRequest, HttpResponse } from "./login-protocols";
 
 export class LoginController implements Controller {
@@ -34,10 +33,9 @@ export class LoginController implements Controller {
         return unauthorized()
       }
 
-      return await Promise.resolve({
-        statusCode: HttpStatusCode.SUCCESS,
-        body: null
-      });
+      return ok({
+        accessToken
+      })
     } catch (error) {
       return serverError(error instanceof Error ? error : new Error('Internal server error'))
     }
