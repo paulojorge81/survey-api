@@ -1,11 +1,12 @@
-import { type Express, Router } from 'express'
-import fastglob from 'fast-glob'
+import { type Express, Router } from 'express';
+import fastglob from 'fast-glob';
 
 interface RouteModule {
   default: (router: Router) => void;
 }
 
-const isRouteModule = (module: any): module is RouteModule => typeof module?.default === 'function';
+const isRouteModule = (module: any): module is RouteModule =>
+  typeof module?.default === 'function';
 
 export const setupRoutes = async (app: Express): Promise<void> => {
   const router = Router();
@@ -22,6 +23,6 @@ export const setupRoutes = async (app: Express): Promise<void> => {
       }
 
       module.default(router);
-    })
+    }),
   );
 };

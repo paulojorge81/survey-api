@@ -6,7 +6,7 @@ export default {
     },
     autoStart: false,
     instance: {
-      dbName: 'jest'
+      dbName: 'jest',
     },
   },
 };

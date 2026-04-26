@@ -8,7 +8,7 @@ export const MongoHelper = {
     this.connection = await MongoClient.connect(uri, {});
   },
   async disconnect() {
-    await this.connection?.close()
+    await this.connection?.close();
     this.connection = null;
   },
   async getCollection(name: string): Promise<Collection> {
@@ -22,6 +22,6 @@ export const MongoHelper = {
     if (!this.connection) {
       throw new Error('MongoHelper connection failed');
     }
-    return this.connection.db().collection(name)
-  }
-}
+    return this.connection.db().collection(name);
+  },
+};

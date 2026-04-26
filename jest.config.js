@@ -9,16 +9,13 @@ const config = {
   clearMocks: true,
   collectCoverage: true,
   collectCoverageFrom: ['<rootDir>/src/**/*', '!<rootDir>/src/main/**'],
-  coverageDirectory: "coverage",
-  coverageProvider: "v8",
+  coverageDirectory: 'coverage',
+  coverageProvider: 'v8',
   preset: '@shelf/jest-mongodb',
-  testMatch: [
-    "**/*.spec.ts",
-    "**/*.test.ts"
-  ],
+  testMatch: ['**/*.spec.ts', '**/*.test.ts'],
   transform: {
-    '.+\\.ts$': 'ts-jest'
-  }
+    '.+\\.ts$': 'ts-jest',
+  },
 };
 
 module.exports = config;

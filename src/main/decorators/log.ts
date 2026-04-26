@@ -1,6 +1,10 @@
-import type { LogErrorRepository } from "../../data/protocols/log-error-repository";
-import { HttpStatusCode } from "../../presentation/http/http-status-code";
-import type { Controller, HttpRequest, HttpResponse } from "../../presentation/protocols";
+import type { LogErrorRepository } from '../../data/protocols/log-error-repository';
+import { HttpStatusCode } from '../../presentation/http/http-status-code';
+import type {
+  Controller,
+  HttpRequest,
+  HttpResponse,
+} from '../../presentation/protocols';
 
 export class LogControllerDecorator implements Controller {
   private readonly controller: Controller;
@@ -13,7 +17,7 @@ export class LogControllerDecorator implements Controller {
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     const httpResponse = await this.controller.handle(httpRequest);
     if (httpResponse.statusCode === HttpStatusCode.SERVER_ERROR) {
-      await this.logErrorRepository.logError(httpResponse.body.stack)
+      await this.logErrorRepository.logError(httpResponse.body.stack);
     }
     return httpResponse;
   }

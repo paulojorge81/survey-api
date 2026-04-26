@@ -1,4 +1,4 @@
-import type { HttpStatusCode } from "../http/http-status-code";
+import type { HttpStatusCode } from '../http/http-status-code';
 
 export interface HttpResponse {
   statusCode: HttpStatusCode;
@@ -6,5 +6,5 @@ export interface HttpResponse {
 }
 
 export interface HttpRequest {
-  body?: any
+  body?: any;
 }
