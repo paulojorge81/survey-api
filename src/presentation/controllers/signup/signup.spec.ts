@@ -5,7 +5,6 @@ import type {
   AccountModel,
   AddAccount,
   AddAccountModel,
-  EmailValidator,
   HttpRequest,
   Validation,
 } from './signup-protocols';
@@ -14,7 +13,6 @@ import type {
 
 interface SutType {
   sut: SignUpController;
-  emailValidatorStub: EmailValidator;
   addAccountStub: AddAccount;
   validationStub: Validation;
 }
@@ -35,7 +33,7 @@ const makeFakeAccount = (): AccountModel => ({
   password: 'valid_password',
 });
 
-const makeValidator = (): Validation => {
+const makeValidation = (): Validation => {
   class ValidationStub implements Validation {
     validate(input: any): Error | null {
       return null;
@@ -43,16 +41,6 @@ const makeValidator = (): Validation => {
   }
 
   return new ValidationStub();
-};
-
-const makeEmailValidator = (): EmailValidator => {
-  class EmailValidatorStub implements EmailValidator {
-    isValid(email: string): boolean {
-      return true;
-    }
-  }
-
-  return new EmailValidatorStub();
 };
 
 const makeAddAccount = (): AddAccount => {
@@ -67,13 +55,11 @@ const makeAddAccount = (): AddAccount => {
 };
 
 const makeSut = (): SutType => {
-  const emailValidatorStub = makeEmailValidator();
-  const validationStub = makeValidator();
+  const validationStub = makeValidation();
   const addAccountStub = makeAddAccount();
   const sut = new SignUpController(addAccountStub, validationStub);
   return {
     sut,
-    emailValidatorStub,
     addAccountStub,
     validationStub,
   };
