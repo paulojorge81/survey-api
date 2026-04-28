@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/strict-void-return */
 import bcrypt from 'bcrypt';
 import { BcryptAdapter } from './bcrypt-adapter';
 
@@ -51,5 +53,14 @@ describe('Bcrypt Adapter', () => {
     const sut = makeSut();
     const isValid = await sut.compare('any_value', 'any_hash');
     expect(isValid).toBe(true);
+  });
+
+  test('Sould return false when compare fails', async () => {
+    const sut = makeSut();
+    jest
+      .spyOn(bcrypt, 'compare')
+      .mockImplementationOnce(async () => await Promise.resolve(false));
+    const isValid = await sut.compare('any_value', 'any_hash');
+    expect(isValid).toBe(false);
   });
 });
