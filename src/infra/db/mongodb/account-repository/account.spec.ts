@@ -4,7 +4,8 @@ import { AccountMongoRepository } from './account';
 
 const makeSut = (): AccountMongoRepository => new AccountMongoRepository();
 
-let accountCollection = null as null | Collection;
+// eslint-disable-next-line @typescript-eslint/init-declarations
+let accountCollection!: Collection;
 
 describe('Account Mongo Repository', () => {
   beforeAll(async () => {
@@ -45,7 +46,7 @@ describe('Account Mongo Repository', () => {
       email: 'any_email@mail.com',
       password: 'any_password',
     };
-    await accountCollection?.insertOne(accountData);
+    await accountCollection.insertOne(accountData);
     const account = await sut.loadByEmail('any_email@mail.com');
     expect(account).toBeTruthy();
     expect(account?.id).toBeTruthy();
@@ -58,5 +59,21 @@ describe('Account Mongo Repository', () => {
     const sut = makeSut();
     const account = await sut.loadByEmail('any_email@mail.com');
     expect(account).toBeFalsy();
+  });
+
+  test('Should udpate the account accessToken on updateAccessToken success', async () => {
+    const sut = makeSut();
+    const accountData = {
+      name: 'any_name',
+      email: 'any_email@mail.com',
+      password: 'any_password',
+    };
+    const { insertedId } = await accountCollection.insertOne(accountData);
+    let account = await accountCollection.findOne({ _id: insertedId });
+    expect(account?.accessToken).toBeFalsy();
+    await sut.updateAccessToken(insertedId.toHexString(), 'any_token');
+    account = await accountCollection.findOne({ _id: insertedId });
+    expect(account).toBeTruthy();
+    expect(account?.accessToken).toBe('any_token');
   });
 });

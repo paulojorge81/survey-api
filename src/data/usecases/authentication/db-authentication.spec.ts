@@ -30,7 +30,7 @@ const makeFakeAuthentication = (): AuthenticationModel => ({
 
 const makeUpdateAccessTokenReporitory = (): UpdateAccessTokenRepository => {
   class UpdateAccessTokenRepositoryStub implements UpdateAccessTokenRepository {
-    async updateAccessToken(id: string, hash: string): Promise<void> {
+    async updateAccessToken(id: string, token: string): Promise<void> {
       await Promise.resolve();
     }
   }
