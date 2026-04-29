@@ -41,7 +41,7 @@ describe('Login Routes', () => {
   });
 
   describe('POST /login', () => {
-    test('Should return 200 on signup', async () => {
+    test('Should return 200 on login', async () => {
       const salt = 12;
       const password = await hash('123', salt);
       const accountData = {
@@ -58,6 +58,17 @@ describe('Login Routes', () => {
           password: '123',
         })
         .expect(HttpStatusCode.SUCCESS);
+    });
+
+    test('Should return 401 on login', async () => {
+      const route = '/api/login';
+      await request(app)
+        .post(route)
+        .send({
+          email: 'paulo@mail.com',
+          password: '123',
+        })
+        .expect(HttpStatusCode.UNAUTHORIZED);
     });
   });
 });
