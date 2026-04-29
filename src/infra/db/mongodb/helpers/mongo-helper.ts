@@ -1,4 +1,12 @@
-import { type Collection, MongoClient } from 'mongodb';
+import { MongoClient, type Collection, type ObjectId } from 'mongodb';
+import type { AccountModel } from '../../../../domain/models/account';
+
+export interface AccountMongoModel {
+  _id: ObjectId;
+  name: string;
+  email: string;
+  password: string;
+}
 
 export const MongoHelper = {
   connection: null as MongoClient | null,
@@ -23,5 +31,12 @@ export const MongoHelper = {
       throw new Error('MongoHelper connection failed');
     }
     return this.connection.db().collection(name);
+  },
+  mapAccountModel(account: AccountMongoModel): AccountModel {
+    const { _id, ...rest } = account;
+    return {
+      id: _id.toHexString(),
+      ...rest,
+    };
   },
 };
