@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 import js from '@eslint/js';
 import love from 'eslint-config-love';
 import { defineConfig } from 'eslint/config';
@@ -36,7 +37,15 @@ export default defineConfig([
       prettier: prettierPlugin,
     },
     rules: {
-      'prettier/prettier': 'error',
+      'prettier/prettier': [
+        'error',
+        {
+          printWidth: 120,
+          singleQuote: true,
+          semi: true,
+          trailingComma: 'all',
+        },
+      ],
     },
   },
 

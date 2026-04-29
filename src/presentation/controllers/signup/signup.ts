@@ -1,11 +1,5 @@
 import { badRequest, ok, serverError } from '../../helpers/http/http-helper';
-import type {
-  AddAccount,
-  Controller,
-  HttpRequest,
-  HttpResponse,
-  Validation,
-} from './signup-protocols';
+import type { AddAccount, Controller, HttpRequest, HttpResponse, Validation } from './signup-protocols';
 
 export class SignUpController implements Controller {
   private readonly addAccount: AddAccount;
@@ -32,9 +26,7 @@ export class SignUpController implements Controller {
       });
       return ok(account);
     } catch (error) {
-      return serverError(
-        error instanceof Error ? error : new Error('Internal server error'),
-      );
+      return serverError(error instanceof Error ? error : new Error('Internal server error'));
     }
   }
 }

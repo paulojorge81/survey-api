@@ -7,9 +7,6 @@ describe('Body Parser Middlewares', () => {
     app.post(route, (req, res) => {
       res.send(req.body);
     });
-    await request(app)
-      .post(route)
-      .send({ name: 'Paulo' })
-      .expect({ name: 'Paulo' });
+    await request(app).post(route).send({ name: 'Paulo' }).expect({ name: 'Paulo' });
   });
 });

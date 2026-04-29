@@ -1,10 +1,5 @@
 import { DbAddAccount } from './db-add-account';
-import type {
-  AccountModel,
-  AddAccountModel,
-  AddAccountRepository,
-  Hasher,
-} from './db-add-account-protocols';
+import type { AccountModel, AddAccountModel, AddAccountRepository, Hasher } from './db-add-account-protocols';
 
 interface SutType {
   sut: DbAddAccount;
@@ -64,9 +59,7 @@ describe('DbAddAccount Usecase', () => {
 
   test('Should throw if Hasher throws', async () => {
     const { sut, hasherStub } = makeSut();
-    jest
-      .spyOn(hasherStub, 'hash')
-      .mockReturnValueOnce(Promise.reject(new Error()));
+    jest.spyOn(hasherStub, 'hash').mockReturnValueOnce(Promise.reject(new Error()));
     const promise = sut.add(makeFakeAccountData());
     await expect(promise).rejects.toThrow();
   });
@@ -84,9 +77,7 @@ describe('DbAddAccount Usecase', () => {
 
   test('Should throw if AddAccountRepository throws', async () => {
     const { sut, addAccountRepositoryStub } = makeSut();
-    jest
-      .spyOn(addAccountRepositoryStub, 'add')
-      .mockReturnValueOnce(Promise.reject(new Error()));
+    jest.spyOn(addAccountRepositoryStub, 'add').mockReturnValueOnce(Promise.reject(new Error()));
     const promise = sut.add(makeFakeAccountData());
     await expect(promise).rejects.toThrow();
   });

@@ -1,16 +1,5 @@
-import {
-  badRequest,
-  ok,
-  serverError,
-  unauthorized,
-} from '../../helpers/http/http-helper';
-import type {
-  Authentication,
-  Controller,
-  HttpRequest,
-  HttpResponse,
-  Validation,
-} from './login-protocols';
+import { badRequest, ok, serverError, unauthorized } from '../../helpers/http/http-helper';
+import type { Authentication, Controller, HttpRequest, HttpResponse, Validation } from './login-protocols';
 
 export class LoginController implements Controller {
   private readonly authentication: Authentication;
@@ -42,9 +31,7 @@ export class LoginController implements Controller {
         accessToken,
       });
     } catch (error) {
-      return serverError(
-        error instanceof Error ? error : new Error('Internal server error'),
-      );
+      return serverError(error instanceof Error ? error : new Error('Internal server error'));
     }
   }
 }
