@@ -1,4 +1,4 @@
-import type { LogErrorRepository } from '../../data/protocols/db/log-error-repository';
+import type { LogErrorRepository } from '../../data/protocols/db/log/log-error-repository';
 import { HttpStatusCode } from '../../presentation/http/http-status-code';
 import type { Controller, HttpRequest, HttpResponse } from '../../presentation/protocols';
 
