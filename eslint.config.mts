@@ -12,6 +12,7 @@ export default defineConfig([
   ...tseslint.configs.recommended,
   love,
   {
+    ignores: ['node_modules', 'dist', 'coverage'],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
       globals: globals.node,
@@ -49,6 +50,5 @@ export default defineConfig([
       ],
     },
   },
-
-  prettierConfig, // 👈 sempre por último
+  prettierConfig
 ]);

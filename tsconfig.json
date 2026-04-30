@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "outDir": "./dist",
+    "rootDir": "src",
+    "outDir": "dist",
     "module": "commonjs",
     "target": "ES2023",
     "esModuleInterop": true,
@@ -10,14 +11,8 @@
       "node"
     ]
   },
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": [],
   "include": [
-    "src",
-    "**/*.ts",
-    "eslint.config.mts",
-    "jest-mongodb-config.js",
-    "jest.config.js"
+    "src"
   ]
 }
