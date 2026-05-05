@@ -8,9 +8,10 @@ services:
     image: survey-api
     ports:
       - 5050:5050
+      - 9222:9222
     volumes:
-      - ./dist:/usr/api/survery-api/dist
-    command: npm start
+      - ./dist:/usr/api/survey-api/dist
+    command: pnpm debug
     depends_on:
       - mongodb
     networks:

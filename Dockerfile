@@ -1,5 +1,5 @@
 FROM node:24
-WORKDIR /usr/api/survery-api
+WORKDIR /usr/api/survey-api
 RUN corepack enable
 COPY ./package.json .
 COPY ./pnpm-lock.yaml .

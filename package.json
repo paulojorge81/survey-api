@@ -1,13 +1,14 @@
 {
   "name": "survey-api",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node dist/main/server.js",
+    "debug": "node --inspect=0.0.0.0:9222 --nolazy dist/main/server.js",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
-    "start:dev": "pnpm build && docker compose -f docker-compose.dev.yml up -d",
-    "stop:dev": "docker compose -f docker-compose.dev.yml down",
+    "dev:up": "pnpm build && docker compose -f docker-compose.dev.yml up -d",
+    "dev:down": "docker compose -f docker-compose.dev.yml down",
     "lint": "eslint src --max-warnings=0",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:verbose": "jest --passWithNoTests",

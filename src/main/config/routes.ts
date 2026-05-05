@@ -20,7 +20,7 @@ export const setupRoutes = async (app: Express): Promise<void> => {
 
   await Promise.all(
     readdirSync(routesPath)
-      .filter((file) => !file.includes('.test.'))
+      .filter((file) => (file.endsWith('.js') || file.endsWith('.ts')) && !file.includes('.test.'))
       .map(async (file) => {
         const filePath = path.join(routesPath, file);
         const module = await import(filePath);
