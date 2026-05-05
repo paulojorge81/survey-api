@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node dist/main/server.js",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
-    "start:dev": "sucrase-node src/main/server.ts",
+    "start:dev": "pnpm build && docker compose -f docker-compose.dev.yml up -d",
+    "stop:dev": "docker compose -f docker-compose.dev.yml down",
     "lint": "eslint src --max-warnings=0",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:verbose": "jest --passWithNoTests",
@@ -53,7 +54,6 @@
     "lint-staged": "^16.4.0",
     "prettier": "^3.8.3",
     "rimraf": "^6.1.3",
-    "sucrase": "^3.35.1",
     "supertest": "^7.2.2",
     "ts-jest": "^29.4.9",
     "typescript": "^6.0.2",
@@ -62,7 +62,6 @@
   "dependencies": {
     "bcrypt": "^6.0.0",
     "express": "^5.2.1",
-    "fast-glob": "^3.3.3",
     "jsonwebtoken": "^9.0.3",
     "mongodb": "^7.2.0",
     "validator": "^13.15.35"
