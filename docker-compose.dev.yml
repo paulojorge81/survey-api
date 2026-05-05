@@ -2,16 +2,16 @@ services:
   survey-api:
     container_name: survey-api
     restart: always
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: survey-api
+    image: node:24
+    working_dir: /usr/api/survey-api
+    command: bash -c "corepack enable && pnpm i --prod --frozen-lockfile --ignore-scripts && pnpm debug"
+    volumes:
+      - ./dist/:/usr/api/survey-api/dist/
+      - ./package.json:/usr/api/survey-api/package.json
+      - ./pnpm-lock.yaml:/usr/api/survey-api/pnpm-lock.yaml
     ports:
       - 5050:5050
       - 9222:9222
-    volumes:
-      - ./dist:/usr/api/survey-api/dist
-    command: pnpm debug
     depends_on:
       - mongodb
     networks:
