@@ -1,0 +1,38 @@
+services:
+  survey-api:
+    container_name: survey-api
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: survey-api
+    ports:
+      - 5050:5050
+    volumes:
+      - ./dist:/usr/api/survery-api/dist
+    command: npm start
+    depends_on:
+      - mongodb
+    networks:
+      - survey-network
+
+  mongodb:
+    image: mongo:8.2
+    container_name: mongodb
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=secretpassword
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - survey-network
+
+volumes:
+  mongo-data:
+
+networks:
+  survey-network:
+    driver: bridge
