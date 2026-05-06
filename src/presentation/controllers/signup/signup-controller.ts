@@ -22,8 +22,8 @@ export class SignUpController implements Controller {
         email,
         password,
       });
-      await this.authentication.auth({ email, password });
-      return ok(account);
+      const accessToken = await this.authentication.auth({ email, password });
+      return ok({ accessToken, account });
     } catch (error) {
       return serverError(error instanceof Error ? error : new Error('Internal server error'));
     }
