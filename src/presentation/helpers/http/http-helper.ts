@@ -7,6 +7,11 @@ export const badRequest = (error: Error): HttpResponse => ({
   body: error,
 });
 
+export const forbidden = (error: Error): HttpResponse => ({
+  statusCode: HttpStatusCode.FORBIDDEN,
+  body: error,
+});
+
 export const serverError = (error: Error): HttpResponse => ({
   statusCode: HttpStatusCode.SERVER_ERROR,
   body: new ServerError(error.stack ?? error.message),
