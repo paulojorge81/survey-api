@@ -9,7 +9,7 @@ import type {
   AuthenticationModel,
   HttpRequest,
   Validation,
-} from './signup-protocols';
+} from './signup-controller-protocols';
 
 // sut = system under test
 
