@@ -1,6 +1,6 @@
-import { EmailInUseError, MissingParamError, ServerError } from '../../../errors';
-import { badRequest, forbidden, ok, serverError } from '../../../helpers/http/http-helper';
-import { SignUpController } from './signup-controller';
+import { EmailInUseError, MissingParamError, ServerError } from '@/presentation/errors';
+import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper';
+import { SignUpController } from '@/presentation/controllers/auth/signup/signup-controller';
 import type {
   AccountModel,
   AddAccount,
@@ -9,7 +9,7 @@ import type {
   AuthenticationModel,
   HttpRequest,
   Validation,
-} from './signup-controller-protocols';
+} from '@/presentation/controllers/auth/signup/signup-controller-protocols';
 
 // sut = system under test
 

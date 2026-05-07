@@ -1,11 +1,11 @@
-import { DbAddAccount } from './db-add-account';
+import { DbAddAccount } from '@/data/usecases/add-account/db-add-account';
 import type {
   AccountModel,
   AddAccountModel,
   AddAccountRepository,
   Hasher,
   LoadAccountByEmailRepository,
-} from './db-add-account-protocols';
+} from '@/data/usecases/add-account/db-add-account-protocols';
 
 interface SutType {
   sut: DbAddAccount;

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import type { Collection } from 'mongodb';
-import { MongoHelper } from '../helpers/mongo-helper';
-import { LogMongoRepository } from './log-repository';
+import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper';
+import { LogMongoRepository } from '@/infra/db/mongodb/log/log-repository';
 
 const makeSut = (): LogMongoRepository => new LogMongoRepository();
 

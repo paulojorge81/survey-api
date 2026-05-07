@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
+
 import js from '@eslint/js';
 import love from 'eslint-config-love';
 import prettierConfig from 'eslint-config-prettier';
@@ -8,15 +9,30 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig([
-  js.configs.recommended,
-  ...tseslint.configs.recommended,
-  love,
   {
-    ignores: ['node_modules', 'dist', 'coverage'],
-    files: ['**/*.{ts,tsx}'],
+    ignores: [
+      'node_modules/**',
+      'dist/**',
+      'coverage/**',
+      'env.js',
+      'jest*.js',
+      'eslint.config.mts',
+    ],
+  },
+
+  js.configs.recommended,
+
+  ...tseslint.configs.recommended,
+
+  love,
+
+  {
+    files: ['**/*.ts'],
+
     languageOptions: {
       globals: globals.node,
     },
+
     rules: {
       '@typescript-eslint/class-methods-use-this': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
@@ -24,19 +40,24 @@ export default defineConfig([
       '@typescript-eslint/strict-boolean-expressions': 'off',
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-unsafe-argument': 'off',
-      '@eslint-community/eslint-comments/require-description': 'off',
+      '@eslint-community/eslint-comments/require-description':
+        'off',
     },
   },
+
   {
     files: ['jest.config.js'],
+
     languageOptions: {
       globals: globals.node,
     },
   },
+
   {
     plugins: {
       prettier: prettierPlugin,
     },
+
     rules: {
       'prettier/prettier': [
         'error',
@@ -50,5 +71,6 @@ export default defineConfig([
       ],
     },
   },
-  prettierConfig
+
+  prettierConfig,
 ]);

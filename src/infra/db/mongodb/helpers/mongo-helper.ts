@@ -1,5 +1,5 @@
 import { MongoClient, type Collection, type ObjectId } from 'mongodb';
-import type { AccountModel } from '../../../../domain/models/account';
+import type { AccountModel } from '@/domain/models/account';
 
 export interface AccountMongoModel {
   _id: ObjectId;

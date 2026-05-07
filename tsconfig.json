@@ -7,6 +7,29 @@
     "sourceMap": true,
     "esModuleInterop": true,
     "allowJs": true,
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@data/*": [
+        "./data/*"
+      ],
+      "@domain/*": [
+        "./domain/*"
+      ],
+      "@infra/*": [
+        "./infra/*"
+      ],
+      "@main/*": [
+        "./main/*"
+      ],
+      "@presentation/*": [
+        "./presentation/*"
+      ],
+      "@validation/*": [
+        "./validation/*"
+      ]
+    },
     "types": [
       "jest",
       "node"
@@ -14,6 +37,6 @@
   },
   "exclude": [],
   "include": [
-    "src"
+    "src/**/*.ts"
   ]
 }

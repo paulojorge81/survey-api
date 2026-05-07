@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { MissingParamError } from '../../presentation/errors';
-import type { Validation } from '../../presentation/protocols';
-import { ValidationComposite } from './validation-composite';
+import { MissingParamError } from '@/presentation/errors';
+import type { Validation } from '@/presentation/protocols';
+import { ValidationComposite } from '@/validation/validators';
 
 interface SutTypes {
   sut: ValidationComposite;

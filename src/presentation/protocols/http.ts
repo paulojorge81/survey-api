@@ -1,4 +1,4 @@
-import type { HttpStatusCode } from '../http/http-status-code';
+import type { HttpStatusCode } from '@/presentation/http/http-status-code';
 
 export interface HttpResponse {
   statusCode: HttpStatusCode;

@@ -1,9 +1,9 @@
 import { hash } from 'bcrypt';
 import type { Collection } from 'mongodb';
 import request from 'supertest';
-import { MongoHelper } from '../../infra/db/mongodb/helpers/mongo-helper';
-import { HttpStatusCode } from '../../presentation/http/http-status-code';
-import { app } from '../config/app';
+import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper';
+import { HttpStatusCode } from '@/presentation/http/http-status-code';
+import { app } from '@/main/config/app';
 
 // eslint-disable-next-line @typescript-eslint/init-declarations
 let accountCollection!: Collection;

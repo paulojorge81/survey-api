@@ -1,4 +1,4 @@
-import { DbAuthentication } from './db-authentication';
+import { DbAuthentication } from '@/data/usecases/authentication/db-authentication';
 import type {
   AccountModel,
   AuthenticationModel,
@@ -6,7 +6,7 @@ import type {
   LoadAccountByEmailRepository,
   Encrypter,
   UpdateAccessTokenRepository,
-} from './db-authentication-protocols';
+} from '@/data/usecases/authentication/db-authentication-protocols';
 
 interface SutTypes {
   sut: DbAuthentication;

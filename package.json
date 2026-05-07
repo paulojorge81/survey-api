@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/main/server.js",
     "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/main/server.js",
-    "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "build": "rimraf dist && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "dev:up": "pnpm build && docker compose -f docker-compose.dev.yml up -d",
     "dev:down": "docker compose -f docker-compose.dev.yml down",
     "lint": "eslint src --max-warnings=0",
@@ -57,6 +57,7 @@
     "rimraf": "^6.1.3",
     "supertest": "^7.2.2",
     "ts-jest": "^29.4.9",
+    "tsc-alias": "^1.8.17",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.2"
   },

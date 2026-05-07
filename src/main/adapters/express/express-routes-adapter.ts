@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
-import { HttpStatusCode } from '../../../presentation/http/http-status-code';
-import type { Controller, HttpRequest, HttpResponse } from '../../../presentation/protocols';
+import { HttpStatusCode } from '@/presentation/http/http-status-code';
+import type { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols';
 
 export const adaptRoute = (controller: Controller) => async (req: Request, res: Response) => {
   const httpRequest: HttpRequest = {
