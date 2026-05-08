@@ -1,4 +1,3 @@
-import { HttpStatusCode } from '@/presentation/http/http-status-code';
 import type {
   AddSurvey,
   Controller,
@@ -6,7 +5,7 @@ import type {
   HttpResponse,
   Validation,
 } from '@/presentation/controllers/add-survey/add-survey-controller-protocols';
-import { badRequest, serverError } from '@/presentation/helpers/http/http-helper';
+import { badRequest, noContent, serverError } from '@/presentation/helpers/http/http-helper';
 
 export class AddSurveyController implements Controller {
   constructor(
@@ -30,7 +29,7 @@ export class AddSurveyController implements Controller {
         answers,
       });
 
-      return await Promise.resolve({ body: {}, statusCode: HttpStatusCode.NO_CONTENT });
+      return noContent();
     } catch (error) {
       return serverError(error instanceof Error ? error : new Error('Internal server error'));
     }
