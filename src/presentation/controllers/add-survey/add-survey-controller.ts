@@ -6,7 +6,7 @@ import type {
   HttpResponse,
   Validation,
 } from '@/presentation/controllers/add-survey/add-survey-controller-protocols';
-import { badRequest } from '@/presentation/helpers/http/http-helper';
+import { badRequest, serverError } from '@/presentation/helpers/http/http-helper';
 
 export class AddSurveyController implements Controller {
   constructor(
@@ -15,20 +15,24 @@ export class AddSurveyController implements Controller {
   ) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const error = this.validation.validate(httpRequest.body);
+    try {
+      const error = this.validation.validate(httpRequest.body);
 
-    if (error) {
-      return badRequest(error);
+      if (error) {
+        return badRequest(error);
+      }
+      const {
+        body: { question, answers },
+      } = httpRequest;
+
+      await this.addSurvey.add({
+        question,
+        answers,
+      });
+
+      return await Promise.resolve({ body: {}, statusCode: HttpStatusCode.NO_CONTENT });
+    } catch (error) {
+      return serverError(error instanceof Error ? error : new Error('Internal server error'));
     }
-    const {
-      body: { question, answers },
-    } = httpRequest;
-
-    await this.addSurvey.add({
-      question,
-      answers,
-    });
-
-    return await Promise.resolve({ body: {}, statusCode: HttpStatusCode.SUCCESS });
   }
 }
