@@ -10,8 +10,12 @@ export class JwtAdapter implements Encrypter, Decrypter {
     return await Promise.resolve(accessToken);
   }
 
-  async decrypt(value: string): Promise<string | null> {
-    jwt.verify(value, this.secret);
-    return await Promise.resolve(null);
+  async decrypt(token: string): Promise<string | null> {
+    // eslint-disable-next-line @typescript-eslint/await-thenable
+    const value: any = await jwt.verify(token, this.secret);
+    if (value) {
+      return `${value}`;
+    }
+    return null;
   }
 }
