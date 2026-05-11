@@ -25,7 +25,7 @@ describe('Login Routes', () => {
   });
 
   describe('POST /surveys', () => {
-    test('Should return 200 on surveys', async () => {
+    test('Should return 403 on add surveys without accessToken', async () => {
       const route = '/api/surveys';
       await request(app)
         .post(route)
@@ -41,7 +41,7 @@ describe('Login Routes', () => {
             },
           ],
         })
-        .expect(HttpStatusCode.NO_CONTENT);
+        .expect(HttpStatusCode.FORBIDDEN);
     });
   });
 });
