@@ -1,11 +1,19 @@
 import { MongoClient, type Collection, type ObjectId } from 'mongodb';
 import type { AccountModel } from '@/domain/models/account';
+import type { SurveyAnswerModel, SurveyModel } from '@/domain/models/surveys';
 
 export interface AccountMongoModel {
   _id: ObjectId;
   name: string;
   email: string;
   password: string;
+}
+
+export interface SurveyMongoModel {
+  _id: ObjectId;
+  question: string;
+  answers: SurveyAnswerModel[];
+  date: Date;
 }
 
 export const MongoHelper = {
@@ -34,6 +42,13 @@ export const MongoHelper = {
   },
   mapAccountModel(account: AccountMongoModel): AccountModel {
     const { _id, ...rest } = account;
+    return {
+      id: _id.toHexString(),
+      ...rest,
+    };
+  },
+  mapSurveyModel(survey: SurveyMongoModel): SurveyModel {
+    const { _id, ...rest } = survey;
     return {
       id: _id.toHexString(),
       ...rest,
