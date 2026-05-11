@@ -1,11 +1,15 @@
-import type { Collection } from 'mongodb';
+/* eslint-disable @typescript-eslint/init-declarations */
+
+import { ObjectId, type Collection } from 'mongodb';
 import request from 'supertest';
 import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper';
 import { HttpStatusCode } from '@/presentation/http/http-status-code';
 import { app } from '@/main/config/app';
+import { sign } from 'jsonwebtoken';
+import { env } from '../config/env';
 
-// eslint-disable-next-line @typescript-eslint/init-declarations
 let surveyCollection!: Collection;
+let accountCollection!: Collection;
 
 describe('Login Routes', () => {
   beforeAll(async () => {
@@ -22,6 +26,8 @@ describe('Login Routes', () => {
   beforeEach(async () => {
     surveyCollection = await MongoHelper.getCollection('surveys');
     await surveyCollection.deleteMany();
+    accountCollection = await MongoHelper.getCollection('accounts');
+    await accountCollection.deleteMany();
   });
 
   describe('POST /surveys', () => {
@@ -42,6 +48,42 @@ describe('Login Routes', () => {
           ],
         })
         .expect(HttpStatusCode.FORBIDDEN);
+    });
+
+    test('Should return 204 on add surveys with valid accessToken', async () => {
+      const res = await accountCollection.insertOne({
+        name: 'Paulo',
+        email: 'paulo@mail.com',
+        password: '123',
+        role: 'admin',
+      });
+      const id = res.insertedId.toHexString();
+      const accessToken = sign({ id }, env.JWT_SECRET);
+      await accountCollection.updateOne(
+        {
+          _id: new ObjectId(id),
+        },
+        {
+          $set: { accessToken },
+        },
+      );
+      const route = '/api/surveys';
+      await request(app)
+        .post(route)
+        .set('x-access-token', accessToken)
+        .send({
+          question: 'Question',
+          answers: [
+            {
+              image: 'http://image-name.com',
+              answer: 'answer 1',
+            },
+            {
+              answer: 'answer 2',
+            },
+          ],
+        })
+        .expect(HttpStatusCode.NO_CONTENT);
     });
   });
 });
