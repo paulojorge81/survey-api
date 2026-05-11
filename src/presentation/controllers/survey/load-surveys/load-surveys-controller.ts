@@ -13,7 +13,7 @@ export class LoadSurveysController implements Controller {
     try {
       const EMPTY = 0;
       const surveys = await this.loadSurveys.load();
-      if (surveys?.length === EMPTY) {
+      if (surveys.length === EMPTY) {
         return noContent();
       }
 
