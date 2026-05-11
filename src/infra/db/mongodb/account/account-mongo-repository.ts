@@ -30,7 +30,10 @@ export class AccountMongoRepository
 
   async loadByToken(token: string, role?: string): Promise<AccountModel | null> {
     const accountColletion = await MongoHelper.getCollection('accounts');
-    const account = await accountColletion.findOne<AccountMongoModel>({ accessToken: token, role });
+    const account = await accountColletion.findOne<AccountMongoModel>({
+      accessToken: token,
+      $or: [{ role }, { role: 'admin' }],
+    });
     if (!account) return null;
 
     return MongoHelper.mapAccountModel(account);
