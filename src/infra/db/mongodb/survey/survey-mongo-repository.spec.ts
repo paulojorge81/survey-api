@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 import type { Collection } from 'mongodb';
 import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper';
 import { SurveyMongoRepository } from '@/infra/db/mongodb/survey/survey-mongo-repository';
@@ -42,5 +43,38 @@ describe('Account Mongo Repository', () => {
     await sut.add(surveyData);
     const survey = await surveyCollection.findOne({ question: 'any_question' });
     expect(survey).toBeTruthy();
+  });
+
+  test('Should load all surveys on success', async () => {
+    const sut = makeSut();
+    const surveyData = [
+      {
+        question: 'any_question',
+        answers: [
+          {
+            image: 'any_image',
+            answer: 'any_answer',
+          },
+          {
+            answer: 'other_answer',
+          },
+        ],
+        date: new Date(),
+      },
+      {
+        question: 'other_question',
+        answers: [
+          {
+            image: 'other_image',
+            answer: 'other_answer',
+          },
+        ],
+        date: new Date(),
+      },
+    ];
+    await surveyCollection.insertMany(surveyData);
+    const surveys = await sut.loadAll();
+    expect(surveys.length).toBe(surveyData.length);
+    expect(surveys[0].question).toBe('any_question');
   });
 });
