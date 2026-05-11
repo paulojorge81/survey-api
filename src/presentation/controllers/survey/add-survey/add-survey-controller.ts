@@ -4,7 +4,7 @@ import type {
   HttpRequest,
   HttpResponse,
   Validation,
-} from '@/presentation/controllers/add-survey/add-survey-controller-protocols';
+} from '@/presentation/controllers/survey/add-survey/add-survey-controller-protocols';
 import { badRequest, noContent, serverError } from '@/presentation/helpers/http/http-helper';
 
 export class AddSurveyController implements Controller {
