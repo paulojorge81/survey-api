@@ -5,10 +5,11 @@ import type { UpdateAccessTokenRepository } from '@/data/protocols/db/account/up
 import type { AccountModel } from '@/domain/models/account';
 import type { AddAccountModel } from '@/domain/usecases/add-account';
 import { type AccountMongoModel, MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper';
+import type { LoadAccountByTokenRepository } from '@/data/protocols/db/account/load-account-by-token-repository';
 
 export class AccountMongoRepository
   // eslint-disable-next-line prettier/prettier
-  implements AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository {
+  implements AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository {
   async add(accountData: AddAccountModel): Promise<AccountModel> {
     const accountCollection = await MongoHelper.getCollection('accounts');
     const accountToInsert = { ...accountData };
@@ -22,6 +23,14 @@ export class AccountMongoRepository
   async loadByEmail(email: string): Promise<AccountModel | null> {
     const accountColletion = await MongoHelper.getCollection('accounts');
     const account = await accountColletion.findOne<AccountMongoModel>({ email });
+    if (!account) return null;
+
+    return MongoHelper.mapAccountModel(account);
+  }
+
+  async loadByToken(token: string, role?: string): Promise<AccountModel | null> {
+    const accountColletion = await MongoHelper.getCollection('accounts');
+    const account = await accountColletion.findOne<AccountMongoModel>({ accessToken: token, role });
     if (!account) return null;
 
     return MongoHelper.mapAccountModel(account);
