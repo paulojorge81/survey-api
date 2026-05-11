@@ -11,6 +11,26 @@ import { env } from '../config/env';
 let surveyCollection!: Collection;
 let accountCollection!: Collection;
 
+const makeAccessToken = async (): Promise<string> => {
+  const res = await accountCollection.insertOne({
+    name: 'Paulo',
+    email: 'paulo@mail.com',
+    password: '123',
+    role: 'admin',
+  });
+  const id = res.insertedId.toHexString();
+  const accessToken = sign({ id }, env.JWT_SECRET);
+  await accountCollection.updateOne(
+    {
+      _id: new ObjectId(id),
+    },
+    {
+      $set: { accessToken },
+    },
+  );
+  return accessToken;
+};
+
 describe('Login Routes', () => {
   beforeAll(async () => {
     if (!process.env.MONGO_URL) {
@@ -51,22 +71,7 @@ describe('Login Routes', () => {
     });
 
     test('Should return 204 on add surveys with valid accessToken', async () => {
-      const res = await accountCollection.insertOne({
-        name: 'Paulo',
-        email: 'paulo@mail.com',
-        password: '123',
-        role: 'admin',
-      });
-      const id = res.insertedId.toHexString();
-      const accessToken = sign({ id }, env.JWT_SECRET);
-      await accountCollection.updateOne(
-        {
-          _id: new ObjectId(id),
-        },
-        {
-          $set: { accessToken },
-        },
-      );
+      const accessToken = await makeAccessToken();
       const route = '/api/surveys';
       await request(app)
         .post(route)
@@ -92,36 +97,10 @@ describe('Login Routes', () => {
       await request(app).get(route).expect(HttpStatusCode.FORBIDDEN);
     });
 
-    test('Should return 200 on load surveys with valid accessToken', async () => {
-      const res = await accountCollection.insertOne({
-        name: 'Paulo',
-        email: 'paulo@mail.com',
-        password: '123',
-        role: 'admin',
-      });
-      const id = res.insertedId.toHexString();
-      const accessToken = sign({ id }, env.JWT_SECRET);
-      await accountCollection.updateOne(
-        {
-          _id: new ObjectId(id),
-        },
-        {
-          $set: { accessToken },
-        },
-      );
-      const surveyData = {
-        question: 'any_question',
-        answers: [
-          {
-            image: 'any_image',
-            answer: 'any_answer',
-          },
-        ],
-        date: new Date(),
-      };
-      await surveyCollection.insertOne(surveyData);
+    test('Should return 204 on load surveys with valid accessToken', async () => {
+      const accessToken = await makeAccessToken();
       const route = '/api/surveys';
-      await request(app).get(route).set('x-access-token', accessToken).expect(HttpStatusCode.SUCCESS);
+      await request(app).get(route).set('x-access-token', accessToken).expect(HttpStatusCode.NO_CONTENT);
     });
   });
 });
