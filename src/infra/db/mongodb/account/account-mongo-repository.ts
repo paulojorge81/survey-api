@@ -25,7 +25,7 @@ export class AccountMongoRepository
     const account = await accountColletion.findOne<AccountMongoModel>({ email });
     if (!account) return null;
 
-    return MongoHelper.mapAccountModel(account);
+    return MongoHelper.mapModel(account);
   }
 
   async loadByToken(token: string, role?: string): Promise<AccountModel | null> {
@@ -36,7 +36,7 @@ export class AccountMongoRepository
     });
     if (!account) return null;
 
-    return MongoHelper.mapAccountModel(account);
+    return MongoHelper.mapModel(account);
   }
 
   async updateAccessToken(id: string, token: string): Promise<void> {

@@ -1,6 +1,5 @@
 import { MongoClient, type Collection, type ObjectId } from 'mongodb';
-import type { AccountModel } from '@/domain/models/account';
-import type { SurveyAnswerModel, SurveyModel } from '@/domain/models/surveys';
+import type { SurveyAnswerModel } from '@/domain/models/surveys';
 
 export interface AccountMongoModel {
   _id: ObjectId;
@@ -15,6 +14,14 @@ export interface SurveyMongoModel {
   answers: SurveyAnswerModel[];
   date: Date;
 }
+
+interface MongoModel {
+  _id: ObjectId;
+}
+
+type Model<T> = Omit<T, '_id'> & {
+  id: string;
+};
 
 export const MongoHelper = {
   connection: null as MongoClient | null,
@@ -40,15 +47,9 @@ export const MongoHelper = {
     }
     return this.connection.db().collection(name);
   },
-  mapAccountModel(account: AccountMongoModel): AccountModel {
-    const { _id, ...rest } = account;
-    return {
-      id: _id.toHexString(),
-      ...rest,
-    };
-  },
-  mapSurveyModel(survey: SurveyMongoModel): SurveyModel {
-    const { _id, ...rest } = survey;
+  mapModel<T extends MongoModel>(data: T): Model<T> {
+    const { _id, ...rest } = data;
+
     return {
       id: _id.toHexString(),
       ...rest,
