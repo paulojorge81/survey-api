@@ -40,8 +40,8 @@ export default defineConfig([
       '@typescript-eslint/strict-boolean-expressions': 'off',
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-unsafe-argument': 'off',
-      '@eslint-community/eslint-comments/require-description':
-        'off',
+      "@typescript-eslint/consistent-type-definitions": "off",
+      '@eslint-community/eslint-comments/require-description': 'off'
     },
   },
 

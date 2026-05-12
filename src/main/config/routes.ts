@@ -2,9 +2,9 @@ import { type Express, Router } from 'express';
 import { readdirSync } from 'node:fs';
 import path from 'node:path';
 
-interface RouteModule {
+type RouteModule = {
   default: (router: Router) => void;
-}
+};
 
 const isRouteModule = (module: unknown): module is RouteModule =>
   typeof module === 'object' &&

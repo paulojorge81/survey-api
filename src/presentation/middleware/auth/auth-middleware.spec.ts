@@ -7,10 +7,10 @@ import type {
   AccountModel,
 } from '@/presentation/middleware/auth/auth-middleware-protocols';
 
-interface SutType {
+type SutTypes = {
   sut: AuthMiddleware;
   loadAccountByTokenStub: LoadAccountByToken;
-}
+};
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
@@ -35,7 +35,7 @@ const makeLoadAccountByToken = (): LoadAccountByToken => {
   return new LoadAccountByTokenStub();
 };
 
-const makeSut = (role?: string): SutType => {
+const makeSut = (role?: string): SutTypes => {
   const loadAccountByTokenStub = makeLoadAccountByToken();
   const sut = new AuthMiddleware(loadAccountByTokenStub, role);
   return { sut, loadAccountByTokenStub };

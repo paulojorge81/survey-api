@@ -7,11 +7,11 @@ import type {
 } from '@/presentation/controllers/survey/add-survey/add-survey-controller-protocols';
 import MockDate from 'mockdate';
 
-interface SutTypes {
+type SutTypes = {
   sut: AddSurveyController;
   validationStub: Validation;
   addSurveyStub: AddSurvey;
-}
+};
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {

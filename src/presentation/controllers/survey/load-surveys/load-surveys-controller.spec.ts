@@ -7,10 +7,10 @@ import { LoadSurveysController } from '@/presentation/controllers/survey/load-su
 import MockDate from 'mockdate';
 import { noContent, ok, serverError } from '@/presentation/helpers/http/http-helper';
 
-interface SutTypes {
+type SutTypes = {
   sut: LoadSurveysController;
   loadSurveysStub: LoadSurveys;
-}
+};
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {},

@@ -7,12 +7,12 @@ import type {
   LoadAccountByEmailRepository,
 } from '@/data/usecases/add-account/db-add-account-protocols';
 
-interface SutType {
+type SutTypes = {
   sut: DbAddAccount;
   hasherStub: Hasher;
   addAccountRepositoryStub: AddAccountRepository;
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository;
-}
+};
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
@@ -55,7 +55,7 @@ const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
   return new LoadAccountByEmailRepositorySub();
 };
 
-const makeSut = (): SutType => {
+const makeSut = (): SutTypes => {
   const hasherStub = makeHasher();
   const addAccountRepositoryStub = makeAddAccountRepository();
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository();

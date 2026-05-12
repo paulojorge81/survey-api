@@ -5,11 +5,11 @@ import { ok, serverError } from '@/presentation/helpers/http/http-helper';
 import type { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols';
 import { LogControllerDecorator } from '@/main/decorators/log-controller-decorator';
 
-interface SutType {
+type SutTypes = {
   controllerStub: Controller;
   sut: LogControllerDecorator;
   logErrorRepositoryStub: LogErrorRepository;
-}
+};
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -47,7 +47,7 @@ const makeLogErrorRepositoryStub = (): LogErrorRepository => {
   return new LogErrorRepositoryStub();
 };
 
-const makeSut = (): SutType => {
+const makeSut = (): SutTypes => {
   const controllerStub = makeControllerStub();
   const logErrorRepositoryStub = makeLogErrorRepositoryStub();
   const sut = new LogControllerDecorator(controllerStub, logErrorRepositoryStub);
