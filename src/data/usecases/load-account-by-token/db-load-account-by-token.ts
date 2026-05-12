@@ -1,5 +1,5 @@
 import type { LoadAccountByToken } from '@/domain/usecases/load-account-by-token';
-import type { AccountModel } from '../add-account/db-add-account-protocols';
+import type { AccountModel } from '@/data/usecases/add-account/db-add-account-protocols';
 import type { Decrypter } from '@/data/protocols/criptography/decrypter';
 import type { LoadAccountByTokenRepository } from '@/data/protocols/db/account/load-account-by-token-repository';
 

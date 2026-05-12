@@ -6,7 +6,7 @@ const port = 5050;
 
 MongoHelper.connect(env.MONGO_URL)
   .then(async () => {
-    const { app } = await import('./config/app');
+    const { app } = await import('@/main/config/app');
     app.listen(port, () => {
       console.log(`Server running at port: ${port}`);
     });

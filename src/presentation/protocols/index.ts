@@ -1,4 +1,4 @@
-export type * from './controller';
-export type * from './http';
-export type * from './validation';
-export type * from './middleware';
+export type * from '@/presentation/protocols/controller';
+export type * from '@/presentation/protocols/http';
+export type * from '@/presentation/protocols/validation';
+export type * from '@/presentation/protocols/middleware';

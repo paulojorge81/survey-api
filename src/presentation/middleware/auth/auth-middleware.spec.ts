@@ -1,6 +1,6 @@
 import { AccessDeniedError } from '@/presentation/errors';
 import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper';
-import { AuthMiddleware } from './auth-middleware';
+import { AuthMiddleware } from '@/presentation/middleware/auth/auth-middleware';
 import type {
   LoadAccountByToken,
   HttpRequest,

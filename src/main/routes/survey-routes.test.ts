@@ -6,7 +6,7 @@ import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper';
 import { HttpStatusCode } from '@/presentation/http/http-status-code';
 import { app } from '@/main/config/app';
 import { sign } from 'jsonwebtoken';
-import { env } from '../config/env';
+import { env } from '@/main/config/env';
 
 let surveyCollection!: Collection;
 let accountCollection!: Collection;

@@ -1,6 +1,6 @@
 import type { AddSurveyRepository } from '@/data/usecases/add-survey/db-add-survey-protocols';
 import type { AddSurveyModel } from '@/domain/usecases/add-survey';
-import { MongoHelper, type SurveyMongoModel } from '../helpers/mongo-helper';
+import { MongoHelper, type SurveyMongoModel } from '@/infra/db/mongodb/helpers/mongo-helper';
 import type { LoadSurveysRepository } from '@/data/protocols/db/survey/load-surveys-repository';
 import type { SurveyModel } from '@/domain/models/surveys';
 
