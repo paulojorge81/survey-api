@@ -2,10 +2,10 @@ import { InvalidParamError } from '@/presentation/errors';
 import type { EmailValidator } from '@/validation/protocols/email-validator';
 import { EmailValidation } from '@/validation/validators';
 
-interface SutType {
+type SutTypes = {
   sut: EmailValidation;
   emailValidatorStub: EmailValidator;
-}
+};
 
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
@@ -17,7 +17,7 @@ const makeEmailValidator = (): EmailValidator => {
   return new EmailValidatorStub();
 };
 
-const makeSut = (): SutType => {
+const makeSut = (): SutTypes => {
   const emailValidatorStub = makeEmailValidator();
   const sut = new EmailValidation('email', emailValidatorStub);
   return {

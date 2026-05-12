@@ -1,23 +1,23 @@
 import { MongoClient, type Collection, type ObjectId } from 'mongodb';
 import type { SurveyAnswerModel } from '@/domain/models/surveys';
 
-export interface AccountMongoModel {
+export type AccountMongoModel = {
   _id: ObjectId;
   name: string;
   email: string;
   password: string;
-}
+};
 
-export interface SurveyMongoModel {
+export type SurveyMongoModel = {
   _id: ObjectId;
   question: string;
   answers: SurveyAnswerModel[];
   date: Date;
-}
+};
 
-interface MongoModel {
+type MongoModel = {
   _id: ObjectId;
-}
+};
 
 type Model<T> = Omit<T, '_id'> & {
   id: string;

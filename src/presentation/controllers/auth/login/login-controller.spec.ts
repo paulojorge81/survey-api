@@ -8,11 +8,11 @@ import type {
   Validation,
 } from '@/presentation/controllers/auth/login/login-controller-protocols';
 
-interface SutTypes {
+type SutTypes = {
   sut: LoginController;
   authenticationStub: Authentication;
   validationStub: Validation;
-}
+};
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {

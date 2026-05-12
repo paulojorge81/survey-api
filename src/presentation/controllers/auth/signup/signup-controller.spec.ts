@@ -13,12 +13,12 @@ import type {
 
 // sut = system under test
 
-interface SutType {
+type SutTypes = {
   sut: SignUpController;
   addAccountStub: AddAccount;
   authenticationStub: Authentication;
   validationStub: Validation;
-}
+};
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -67,7 +67,7 @@ const makeAddAccount = (): AddAccount => {
   return new AddAccountStub();
 };
 
-const makeSut = (): SutType => {
+const makeSut = (): SutTypes => {
   const authenticationStub = makeAuthentication();
   const validationStub = makeValidation();
   const addAccountStub = makeAddAccount();
