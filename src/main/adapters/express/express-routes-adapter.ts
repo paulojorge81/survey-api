@@ -9,7 +9,7 @@ export const adaptRoute = (controller: Controller) => async (req: Request, res: 
   const httpResponse: HttpResponse = await controller.handle(httpRequest);
   const SUCCESS_FINAL_RANGE = 299;
   // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
-  if (httpResponse.statusCode >= HttpStatusCode.SUCCESS || httpResponse.statusCode <= SUCCESS_FINAL_RANGE) {
+  if (httpResponse.statusCode >= HttpStatusCode.SUCCESS && httpResponse.statusCode <= SUCCESS_FINAL_RANGE) {
     res.status(httpResponse.statusCode).json(httpResponse.body);
   } else {
     res.status(httpResponse.statusCode).json({ error: httpResponse.body.message });
