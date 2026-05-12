@@ -5,6 +5,8 @@ services:
     image: node:24
     working_dir: /usr/api/survey-api
     command: bash -c "corepack enable && pnpm i --prod --frozen-lockfile --ignore-scripts && pnpm debug"
+    environment:
+      - MONGO_URL=mongodb://admin:secretpassword@mongodb:27017/suvery-api?authSource=admin
     volumes:
       - ./dist/:/usr/api/survey-api/dist/
       - ./package.json:/usr/api/survey-api/package.json
