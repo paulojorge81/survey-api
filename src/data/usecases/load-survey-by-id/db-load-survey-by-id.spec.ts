@@ -1,5 +1,7 @@
-import type { LoadSurveyByIdRepository } from '@/data/protocols/db/survey/load-survey-by-id-repository';
-import type { SurveyModel } from '@/domain/models/surveys';
+import type {
+  LoadSurveyByIdRepository,
+  SurveyModel,
+} from '@/data/usecases/load-survey-by-id/db-load-survey-by-id-protocols';
 import MockDate from 'mockdate';
 import { DbLoadSurveyById } from '@/data/usecases/load-survey-by-id/db-load-survey-by-id';
 
@@ -61,7 +63,7 @@ describe('DbLoadSurveyById', () => {
     expect(survey).toEqual(makeFakeSurveys());
   });
 
-  test('Should throws if LoadSurveysRepository throws', async () => {
+  test('Should throws if LoadSurveyByIdRepository throws', async () => {
     const { sut, loadSurveyByIdRepositoryStub } = makeSut();
     jest.spyOn(loadSurveyByIdRepositoryStub, 'loadById').mockReturnValueOnce(Promise.reject(new Error()));
     const promise = sut.loadById('any_id');
