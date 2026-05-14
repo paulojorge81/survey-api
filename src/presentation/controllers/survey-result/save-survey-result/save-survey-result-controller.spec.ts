@@ -8,7 +8,7 @@ import type {
   SurveyModel,
 } from '@/presentation/controllers/survey-result/save-survey-result/save-survey-result-controller-protocols';
 import { InvalidParamError } from '@/presentation/errors';
-import { forbidden, serverError } from '@/presentation/helpers/http/http-helper';
+import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper';
 import MockDate from 'mockdate';
 
 type SutTypes = {
@@ -39,7 +39,7 @@ const makeFakeSurvey = (): SurveyModel => ({
   date: new Date(),
 });
 
-const makeFakeSurveyModel = (): SurveyResultModel => ({
+const makeFakeSurveyResult = (): SurveyResultModel => ({
   id: 'any_id',
   surveyId: 'any_survey_id',
   accountId: 'any_account_id',
@@ -60,7 +60,7 @@ const makeLoadSurveyById = (): LoadSurveyById => {
 const makeSaveSurveyResult = (): SaveSurveyResult => {
   class SaveSurveyResultStub implements SaveSurveyResult {
     async save(data: SaveSurveyResultModel): Promise<SurveyResultModel> {
-      return await Promise.resolve(makeFakeSurveyModel());
+      return await Promise.resolve(makeFakeSurveyResult());
     }
   }
 
@@ -134,5 +134,11 @@ describe('SaveSurveyResult Controller', () => {
     jest.spyOn(saveSurveyResultStub, 'save').mockReturnValueOnce(Promise.reject(new Error()));
     const httpResponse = await sut.handle(makeFakeRequest());
     expect(httpResponse).toEqual(serverError(new Error()));
+  });
+
+  test('Should return 200 on success', async () => {
+    const { sut } = makeSut();
+    const httpResponse = await sut.handle(makeFakeRequest());
+    expect(httpResponse).toEqual(ok(makeFakeSurveyResult()));
   });
 });
