@@ -21,16 +21,16 @@ export class AccountMongoRepository
   }
 
   async loadByEmail(email: string): Promise<AccountModel | null> {
-    const accountColletion = await MongoHelper.getCollection('accounts');
-    const account = await accountColletion.findOne<AccountMongoModel>({ email });
+    const accountColletion = await MongoHelper.getCollection<AccountMongoModel>('accounts');
+    const account = await accountColletion.findOne({ email });
     if (!account) return null;
 
     return MongoHelper.mapModel(account);
   }
 
   async loadByToken(token: string, role?: string): Promise<AccountModel | null> {
-    const accountColletion = await MongoHelper.getCollection('accounts');
-    const account = await accountColletion.findOne<AccountMongoModel>({
+    const accountColletion = await MongoHelper.getCollection<AccountMongoModel>('accounts');
+    const account = await accountColletion.findOne({
       accessToken: token,
       $or: [{ role }, { role: 'admin' }],
     });

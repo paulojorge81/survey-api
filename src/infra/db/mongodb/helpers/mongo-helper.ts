@@ -1,19 +1,24 @@
-import { MongoClient, type Collection, type ObjectId } from 'mongodb';
+import { MongoClient, type Collection, type ObjectId, type Document } from 'mongodb';
 import type { SurveyAnswerModel } from '@/domain/models/surveys';
 
 export type AccountMongoModel = {
-  _id: ObjectId;
   name: string;
   email: string;
   password: string;
-};
+} & MongoModel;
 
 export type SurveyMongoModel = {
-  _id: ObjectId;
   question: string;
   answers: SurveyAnswerModel[];
   date: Date;
-};
+} & MongoModel;
+
+export type SurveyResultMongoModel = {
+  surveyId: string;
+  accountId: string;
+  answer: string;
+  date: Date;
+} & MongoModel;
 
 type MongoModel = {
   _id: ObjectId;
@@ -34,7 +39,7 @@ export const MongoHelper = {
     await this.connection?.close();
     this.connection = null;
   },
-  async getCollection(name: string): Promise<Collection> {
+  async getCollection<T extends Document = Document>(name: string): Promise<Collection<T>> {
     if (!this.connection) {
       if (!this.uri) {
         throw new Error('MongoHelper not initialized with URI');
@@ -45,7 +50,7 @@ export const MongoHelper = {
     if (!this.connection) {
       throw new Error('MongoHelper connection failed');
     }
-    return this.connection.db().collection(name);
+    return this.connection.db().collection<T>(name);
   },
   mapModel<T extends MongoModel>(data: T): Model<T> {
     const { _id, ...rest } = data;
