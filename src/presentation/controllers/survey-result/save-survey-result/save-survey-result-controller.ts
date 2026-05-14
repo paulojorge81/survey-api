@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { HttpStatusCode } from '@/presentation/http/http-status-code';
 import type {
   LoadSurveyById,
   Controller,
@@ -7,7 +6,7 @@ import type {
   HttpResponse,
   SaveSurveyResult,
 } from '@/presentation/controllers/survey-result/save-survey-result/save-survey-result-controller-protocols';
-import { forbidden, serverError } from '@/presentation/helpers/http/http-helper';
+import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper';
 import { InvalidParamError } from '@/presentation/errors';
 
 export class SaveSurveyResultController implements Controller {
@@ -32,13 +31,14 @@ export class SaveSurveyResultController implements Controller {
         return forbidden(new InvalidParamError('surveyId'));
       }
 
-      await this.saveSurveyResult.save({
+      const surveyResult = await this.saveSurveyResult.save({
         accountId: accountId!,
         surveyId,
         answer,
         date: new Date(),
       });
-      return await Promise.resolve({ body: {}, statusCode: HttpStatusCode.SUCCESS });
+
+      return ok(surveyResult);
     } catch (error) {
       return serverError(error instanceof Error ? error : new Error('Internal server error'));
     }
