@@ -78,6 +78,7 @@ describe('Account Mongo Repository', () => {
       await surveyCollection.insertMany(surveyData);
       const surveys = await sut.loadAll();
       expect(surveys.length).toBe(surveyData.length);
+      expect(surveys[0].id).toBeTruthy();
       expect(surveys[0].question).toBe('any_question');
     });
 
@@ -105,6 +106,7 @@ describe('Account Mongo Repository', () => {
       const res = await surveyCollection.insertOne(surveyData);
       const survey = await sut.loadById(res.insertedId.toHexString());
       expect(survey).toBeTruthy();
+      expect(survey?.id).toBeTruthy();
     });
   });
 });

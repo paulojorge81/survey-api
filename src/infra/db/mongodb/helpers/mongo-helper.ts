@@ -60,4 +60,7 @@ export const MongoHelper = {
       ...rest,
     };
   },
+  mapCollection<T extends MongoModel>(collection: T[]): Array<Model<T>> {
+    return collection.map((c) => MongoHelper.mapModel(c));
+  },
 };
