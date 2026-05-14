@@ -69,4 +69,11 @@ describe('DbLoadSurveyById', () => {
     const promise = sut.loadById('any_id');
     await expect(promise).rejects.toThrow();
   });
+
+  test('Should return null if LoadSurveyByIdRepository returns null', async () => {
+    const { sut, loadSurveyByIdRepositoryStub } = makeSut();
+    jest.spyOn(loadSurveyByIdRepositoryStub, 'loadById').mockReturnValueOnce(Promise.resolve(null));
+    const survey = await sut.loadById('any_id');
+    expect(survey).toBeNull();
+  });
 });
