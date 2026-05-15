@@ -5,6 +5,8 @@ import type { Controller, HttpRequest, HttpResponse } from '@/presentation/proto
 export const adaptRoute = (controller: Controller) => async (req: Request, res: Response) => {
   const httpRequest: HttpRequest = {
     body: req.body,
+    params: req.params,
+    accountId: req.accountId,
   };
   const httpResponse: HttpResponse = await controller.handle(httpRequest);
   const SUCCESS_FINAL_RANGE = 299;
