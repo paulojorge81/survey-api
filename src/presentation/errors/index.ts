@@ -1,6 +1,6 @@
+export * from '@/presentation/errors/access-denied-error';
 export * from '@/presentation/errors/email-in-user-error';
 export * from '@/presentation/errors/invalid-param-error';
 export * from '@/presentation/errors/missing-param-error';
 export * from '@/presentation/errors/server-error';
 export * from '@/presentation/errors/unauthorized-error';
-export * from '@/presentation/errors/access-denied-error';

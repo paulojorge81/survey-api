@@ -1,38 +1,18 @@
-import type { LoadSurveysRepository, SurveyModel } from '@/data/usecases/survey/load-surveys/db-load-surveys-protocols';
-import { DbLoadSurveys } from '@/data/usecases/survey/load-surveys/db-load-surveys';
 import MockDate from 'mockdate';
+
+import type { LoadSurveysRepository } from '@/data/usecases/survey/load-surveys/db-load-surveys-protocols';
+
+import { mmockLoadSurveysRepository } from '@/data/test';
+import { DbLoadSurveys } from '@/data/usecases/survey/load-surveys/db-load-surveys';
+import { mockSurveyModels, throwError } from '@/domain/test';
 
 type SutTypes = {
   sut: DbLoadSurveys;
   loadSurveysRepositoryStub: LoadSurveysRepository;
 };
 
-const makeFakeSurveys = (): SurveyModel[] => [
-  {
-    id: 'any_id',
-    question: 'any_question',
-    answers: [
-      {
-        image: 'any_image',
-        answer: 'any_answer',
-      },
-    ],
-    date: new Date(),
-  },
-];
-
-const makeLoadSurveysRepository = (): LoadSurveysRepository => {
-  class LoadSurveysRepositoryStub implements LoadSurveysRepository {
-    async loadAll(): Promise<SurveyModel[]> {
-      return await Promise.resolve(makeFakeSurveys());
-    }
-  }
-
-  return new LoadSurveysRepositoryStub();
-};
-
 const makeSut = (): SutTypes => {
-  const loadSurveysRepositoryStub = makeLoadSurveysRepository();
+  const loadSurveysRepositoryStub = mmockLoadSurveysRepository();
   const sut = new DbLoadSurveys(loadSurveysRepositoryStub);
   return {
     sut,
@@ -59,12 +39,12 @@ describe('DbLoadSurveys', () => {
   test('Should return a list of Surveys on success', async () => {
     const { sut } = makeSut();
     const surveys = await sut.load();
-    expect(surveys).toEqual(makeFakeSurveys());
+    expect(surveys).toEqual(mockSurveyModels());
   });
 
   test('Should throws if LoadSurveysRepository throws', async () => {
     const { sut, loadSurveysRepositoryStub } = makeSut();
-    jest.spyOn(loadSurveysRepositoryStub, 'loadAll').mockReturnValueOnce(Promise.reject(new Error()));
+    jest.spyOn(loadSurveysRepositoryStub, 'loadAll').mockImplementationOnce(throwError);
     const promise = sut.load();
     await expect(promise).rejects.toThrow();
   });

@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/init-declarations */
-import request from 'supertest';
-import { HttpStatusCode } from '@/presentation/http/http-status-code';
-import { app } from '@/main/config/app';
-import { ObjectId, type Collection } from 'mongodb';
-import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper';
 import { sign } from 'jsonwebtoken';
+import { ObjectId, type Collection } from 'mongodb';
+import request from 'supertest';
+
+import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper';
+import { app } from '@/main/config/app';
 import { env } from '@/main/config/env';
+import { HttpStatusCode } from '@/presentation/http/http-status-code';
 
 let surveyCollection!: Collection;
 let accountCollection!: Collection;

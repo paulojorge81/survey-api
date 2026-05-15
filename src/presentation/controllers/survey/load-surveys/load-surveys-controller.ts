@@ -4,6 +4,7 @@ import type {
   HttpResponse,
   LoadSurveys,
 } from '@/presentation/controllers/survey/load-surveys/load-surveys-controller-protocols';
+
 import { noContent, ok, serverError } from '@/presentation/helpers/http/http-helper';
 
 export class LoadSurveysController implements Controller {

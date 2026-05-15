@@ -3,10 +3,12 @@
 /* eslint-disable @typescript-eslint/init-declarations */
 
 import type { Collection } from 'mongodb';
+
+import type { AccountModel } from '@/domain/models/account';
+import type { SurveyModel } from '@/domain/models/surveys';
+
 import { type AccountMongoModel, MongoHelper, type SurveyMongoModel } from '@/infra/db/mongodb/helpers/mongo-helper';
 import { SurveyResultMongoRepository } from '@/infra/db/mongodb/survey-result/survey-result-mongo-repository';
-import type { SurveyModel } from '@/domain/models/surveys';
-import type { AccountModel } from '@/domain/models/account';
 
 let surveyCollection!: Collection;
 let surveyResultCollection!: Collection;

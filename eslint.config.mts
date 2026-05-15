@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 
+
+import perfectionist from 'eslint-plugin-perfectionist';
 import js from '@eslint/js';
 import love from 'eslint-config-love';
 import prettierConfig from 'eslint-config-prettier';
@@ -56,6 +58,7 @@ export default defineConfig([
   {
     plugins: {
       prettier: prettierPlugin,
+      perfectionist
     },
 
     rules: {
@@ -67,6 +70,21 @@ export default defineConfig([
           semi: true,
           trailingComma: 'all',
           bracketSpacing: true,
+        },
+      ],
+      'perfectionist/sort-imports': [
+        'warn',
+        {
+          type: 'alphabetical',
+          order: 'asc',
+        },
+      ],
+
+      'perfectionist/sort-exports': [
+        'warn',
+        {
+          type: 'alphabetical',
+          order: 'asc',
         },
       ],
     },

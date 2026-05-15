@@ -3,6 +3,7 @@ import type {
   SaveSurveyResultRepository,
   SurveyResultModel,
 } from '@/data/usecases/survey-result/save-survey-result/db-save-survey-result-protocols';
+
 import { MongoHelper, type SurveyResultMongoModel } from '@/infra/db/mongodb/helpers/mongo-helper';
 
 export class SurveyResultMongoRepository implements SaveSurveyResultRepository {

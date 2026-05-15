@@ -6,8 +6,9 @@ import type {
   HttpResponse,
   SaveSurveyResult,
 } from '@/presentation/controllers/survey-result/save-survey-result/save-survey-result-controller-protocols';
-import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper';
+
 import { InvalidParamError } from '@/presentation/errors';
+import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper';
 
 export class SaveSurveyResultController implements Controller {
   constructor(

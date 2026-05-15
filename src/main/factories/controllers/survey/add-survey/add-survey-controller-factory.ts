@@ -1,6 +1,7 @@
 import type { Controller } from '@/presentation/protocols';
-import { makeLogControllerDecorator } from '@/main/factories/decorators/log-controller-decorator-factory';
+
 import { makeAddSurveyValidation } from '@/main/factories/controllers/survey/add-survey/add-survey-validation-factory';
+import { makeLogControllerDecorator } from '@/main/factories/decorators/log-controller-decorator-factory';
 import { makeDbAddSurvey } from '@/main/factories/usecases/survey/add-survey/db-add-survey-factory';
 import { AddSurveyController } from '@/presentation/controllers/survey/add-survey/add-survey-controller';
 

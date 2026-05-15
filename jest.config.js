@@ -8,7 +8,7 @@ const config = {
   roots: ['<rootDir>/src'],
   clearMocks: true,
   collectCoverage: true,
-  collectCoverageFrom: ['<rootDir>/src/**/*', '!<rootDir>/src/main/**'],
+  collectCoverageFrom: ['<rootDir>/src/**/*', '!<rootDir>/src/main/**', '!**/test/**'],
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
   preset: '@shelf/jest-mongodb',

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-void-return */
 import bcrypt from 'bcrypt';
+
 import { BcryptAdapter } from '@/infra/criptography/bcrypt-adapter/bcrypt-adapter';
 
 jest.mock('bcrypt', () => ({

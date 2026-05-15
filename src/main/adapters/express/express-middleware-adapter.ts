@@ -1,6 +1,8 @@
 import type { NextFunction, Request, Response } from 'express';
-import { HttpStatusCode } from '@/presentation/http/http-status-code';
+
 import type { HttpRequest, HttpResponse, Middleware } from '@/presentation/protocols';
+
+import { HttpStatusCode } from '@/presentation/http/http-status-code';
 
 export const adaptMiddleware = (middleware: Middleware) => async (req: Request, res: Response, next: NextFunction) => {
   const httpRequest: HttpRequest = {

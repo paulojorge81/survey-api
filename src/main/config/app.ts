@@ -1,4 +1,5 @@
 import express from 'express';
+
 import { setupMiddlewares } from '@/main/config/middlewares';
 import { setupRoutes } from '@/main/config/routes';
 

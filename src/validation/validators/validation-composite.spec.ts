@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { MissingParamError } from '@/presentation/errors';
 import type { Validation } from '@/presentation/protocols';
+
+import { MissingParamError } from '@/presentation/errors';
+import { mockValidation } from '@/validation/test';
 import { ValidationComposite } from '@/validation/validators';
 
 type SutTypes = {
@@ -8,18 +10,8 @@ type SutTypes = {
   validationStubs: Validation[];
 };
 
-const makeValidation = (): Validation => {
-  class ValidationStub implements Validation {
-    validate(input: any): Error | null {
-      return null;
-    }
-  }
-
-  return new ValidationStub();
-};
-
 const makeSut = (): SutTypes => {
-  const validationStubs = [makeValidation(), makeValidation()];
+  const validationStubs = [mockValidation(), mockValidation()];
   const sut = new ValidationComposite(validationStubs);
   return {
     sut,
