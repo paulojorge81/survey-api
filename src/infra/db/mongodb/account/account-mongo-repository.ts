@@ -3,14 +3,14 @@ import type { AddAccountRepository } from '@/data/protocols/db/account/add-accou
 import type { LoadAccountByEmailRepository } from '@/data/protocols/db/account/load-account-by-email-repository';
 import type { UpdateAccessTokenRepository } from '@/data/protocols/db/account/update-access-token-repository';
 import type { AccountModel } from '@/domain/models/account';
-import type { AddAccountModel } from '@/domain/usecases/account/add-account';
+import type { AddAccountParams } from '@/domain/usecases/account/add-account';
 import { type AccountMongoModel, MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper';
 import type { LoadAccountByTokenRepository } from '@/data/protocols/db/account/load-account-by-token-repository';
 
 export class AccountMongoRepository
   // eslint-disable-next-line prettier/prettier
   implements AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository {
-  async add(accountData: AddAccountModel): Promise<AccountModel> {
+  async add(accountData: AddAccountParams): Promise<AccountModel> {
     const accountCollection = await MongoHelper.getCollection('accounts');
     const accountToInsert = { ...accountData };
     const { insertedId } = await accountCollection.insertOne(accountToInsert);

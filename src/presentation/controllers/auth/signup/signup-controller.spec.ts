@@ -4,9 +4,9 @@ import { SignUpController } from '@/presentation/controllers/auth/signup/signup-
 import type {
   AccountModel,
   AddAccount,
-  AddAccountModel,
+  AddAccountParams,
   Authentication,
-  AuthenticationModel,
+  AuthenticationParams,
   HttpRequest,
   Validation,
 } from '@/presentation/controllers/auth/signup/signup-controller-protocols';
@@ -38,7 +38,7 @@ const makeFakeAccount = (): AccountModel => ({
 
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth(authentication: AuthenticationModel): Promise<string> {
+    async auth(authentication: AuthenticationParams): Promise<string> {
       return await Promise.resolve('any_token');
     }
   }
@@ -58,7 +58,7 @@ const makeValidation = (): Validation => {
 
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
-    async add(account: AddAccountModel): Promise<AccountModel | null> {
+    async add(account: AddAccountParams): Promise<AccountModel | null> {
       const fakeAccount = makeFakeAccount();
       return await Promise.resolve(fakeAccount);
     }
