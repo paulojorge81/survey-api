@@ -6,28 +6,25 @@ import js from '@eslint/js';
 import love from 'eslint-config-love';
 import prettierConfig from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier';
-import { defineConfig } from 'eslint/config';
+import { defineConfig, globalIgnores } from 'eslint/config';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig([
-  {
-    ignores: [
-      'node_modules/**',
-      'dist/**',
-      'coverage/**',
-      'env.js',
-      'jest*.js',
-      'eslint.config.mts',
-    ],
-  },
-
+  globalIgnores([
+    'node_modules/**/*',
+    'dist/**/*',
+    'coverage/**/*',
+    'env.js',
+    'jest*.js',
+    'eslint.config.mts',
+    '.husky/**/*',
+    '.vscode/**/*',
+    'requirements/**/*'
+  ]),
   js.configs.recommended,
-
   ...tseslint.configs.recommended,
-
   love,
-
   {
     files: ['**/*.ts'],
 
