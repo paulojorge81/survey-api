@@ -1,6 +1,16 @@
-import { badRequest, notFound, serverError, unauthorized } from '@/main/docs/components';
+import { badRequest, forbidden, notFound, serverError, unauthorized } from '@/main/docs/components';
 import { loginPath } from '@/main/docs/paths';
-import { loginParamsSchema, accountSchema, errorSchema } from '@/main/docs/schemas';
+import {
+  loginParamsSchema,
+  accountSchema,
+  errorSchema,
+  surveysSchema,
+  surveySchema,
+  surveyAnswerSchema,
+  apiKeyAuthSchema,
+} from '@/main/docs/schemas';
+
+import { surveyPath } from './paths/surveys-path';
 
 export const swaggerConfig = {
   openapi: '3.0.0',
@@ -22,19 +32,30 @@ export const swaggerConfig = {
     {
       name: 'Login',
     },
+    {
+      name: 'Enquetes',
+    },
   ],
   paths: {
     '/login': loginPath,
+    '/surveys': surveyPath,
   },
   schemas: {
     account: accountSchema,
     loginParams: loginParamsSchema,
     error: errorSchema,
+    surveys: surveysSchema,
+    survey: surveySchema,
+    surveyAnswer: surveyAnswerSchema,
   },
   components: {
+    securitySchemes: {
+      apiKeyAuth: apiKeyAuthSchema,
+    },
     badRequest,
     unauthorized,
     serverError,
     notFound,
+    forbidden,
   },
 };
