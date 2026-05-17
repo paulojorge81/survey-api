@@ -1,5 +1,5 @@
 import { badRequest, forbidden, notFound, serverError, unauthorized } from '@/main/docs/components';
-import { loginPath } from '@/main/docs/paths';
+import { loginPath, signUpPath, surveyPath } from '@/main/docs/paths';
 import {
   loginParamsSchema,
   accountSchema,
@@ -8,9 +8,8 @@ import {
   surveySchema,
   surveyAnswerSchema,
   apiKeyAuthSchema,
+  signUpParamsSchema,
 } from '@/main/docs/schemas';
-
-import { surveyPath } from './paths/surveys-path';
 
 export const swaggerConfig = {
   openapi: '3.0.0',
@@ -38,6 +37,7 @@ export const swaggerConfig = {
   ],
   paths: {
     '/login': loginPath,
+    '/signup': signUpPath,
     '/surveys': surveyPath,
   },
   schemas: {
@@ -47,6 +47,7 @@ export const swaggerConfig = {
     surveys: surveysSchema,
     survey: surveySchema,
     surveyAnswer: surveyAnswerSchema,
+    signUpParams: signUpParamsSchema,
   },
   components: {
     securitySchemes: {
