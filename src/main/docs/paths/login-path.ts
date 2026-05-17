@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 export const loginPath = {
   post: {
-    tags: ['Login'],
+    tags: ['Auth'],
     summary: 'API para autenticar o usuário',
     requestBody: {
       content: {

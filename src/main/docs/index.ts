@@ -30,7 +30,7 @@ export const swaggerConfig = {
   ],
   tags: [
     {
-      name: 'Login',
+      name: 'Auth',
     },
     {
       name: 'Enquetes',

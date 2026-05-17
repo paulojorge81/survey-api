@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 export const signUpPath = {
   post: {
-    tags: ['Login'],
+    tags: ['Auth'],
     summary: 'API para criar conta de um usuário',
     requestBody: {
       content: {
