@@ -9,6 +9,7 @@ import {
   surveyAnswerSchema,
   apiKeyAuthSchema,
   signUpParamsSchema,
+  addSurveyParamsSchema,
 } from '@/main/docs/schemas';
 
 export const swaggerConfig = {
@@ -48,6 +49,7 @@ export const swaggerConfig = {
     survey: surveySchema,
     surveyAnswer: surveyAnswerSchema,
     signUpParams: signUpParamsSchema,
+    addSurveyParams: addSurveyParamsSchema,
   },
   components: {
     securitySchemes: {
