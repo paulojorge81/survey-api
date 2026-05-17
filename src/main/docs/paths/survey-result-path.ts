@@ -19,7 +19,6 @@ export const surveyResultPath = {
         name: 'surveyId',
         required: true,
         schema: { type: 'string' },
-        style: 'matrix',
       },
     ],
     responses: {
