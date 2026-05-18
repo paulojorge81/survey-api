@@ -25,6 +25,12 @@ export class QueryBuilder {
     });
     return this;
   }
+  sort(data: object): this {
+    this.query.push({
+      $sort: data,
+    });
+    return this;
+  }
   addFields(data: object): this {
     this.query.push({
       $addFields: data,
