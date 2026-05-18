@@ -9,6 +9,7 @@ import {
   addSurveyParamsSchema,
   saveSurveyParamsSchema,
   surveyResultSchema,
+  surveyResultAnswerSchema,
 } from '@/main/docs/schemas/index';
 
 export const schemas = {
@@ -22,4 +23,5 @@ export const schemas = {
   addSurveyParams: addSurveyParamsSchema,
   saveSurveyParams: saveSurveyParamsSchema,
   surveyResult: surveyResultSchema,
+  surveyResultAnswer: surveyResultAnswerSchema,
 };
