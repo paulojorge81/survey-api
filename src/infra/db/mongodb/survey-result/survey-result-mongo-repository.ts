@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongodb';
+
 import type {
   SaveSurveyResultParams,
   SaveSurveyResultRepository,
@@ -8,11 +10,14 @@ import { MongoHelper, type SurveyResultMongoModel } from '@/infra/db/mongodb/hel
 
 export class SurveyResultMongoRepository implements SaveSurveyResultRepository {
   async save(data: SaveSurveyResultParams): Promise<SurveyResultModel> {
+    const { surveyId, accountId } = data;
+    const surveyObjectId = new ObjectId(surveyId);
+    const accountObjectId = new ObjectId(accountId);
     const surveyResultCollection = await MongoHelper.getCollection<SurveyResultMongoModel>('surveyResults');
     const surveyResult = await surveyResultCollection.findOneAndUpdate(
       {
-        surveyId: data.surveyId,
-        accountId: data.accountId,
+        surveyId: surveyObjectId,
+        accountId: accountObjectId,
       },
       {
         $set: {

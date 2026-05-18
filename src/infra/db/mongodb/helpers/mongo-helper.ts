@@ -15,8 +15,8 @@ export type SurveyMongoModel = {
 } & MongoModel;
 
 export type SurveyResultMongoModel = {
-  surveyId: string;
-  accountId: string;
+  surveyId: ObjectId | string;
+  accountId: ObjectId | string;
   answer: string;
   date: Date;
 } & MongoModel;
@@ -55,7 +55,6 @@ export const MongoHelper = {
   },
   mapModel<T extends MongoModel>(data: T): Model<T> {
     const { _id, ...rest } = data;
-
     return {
       id: _id.toHexString(),
       ...rest,

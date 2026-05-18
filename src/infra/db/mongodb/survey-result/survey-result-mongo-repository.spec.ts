@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable @typescript-eslint/init-declarations */
 
-import type { Collection } from 'mongodb';
+import { ObjectId, type Collection } from 'mongodb';
 
 import type { AccountModel } from '@/domain/models/account';
 import type { SurveyModel } from '@/domain/models/surveys';
@@ -90,14 +90,14 @@ describe('Account Mongo Repository', () => {
       const account = await makeAccount();
       const sut = makeSut();
       const res = await surveyResultCollection.insertOne({
-        surveyId: survey!.id,
-        accountId: account!.id,
+        surveyId: new ObjectId(survey!.id),
+        accountId: new ObjectId(account!.id),
         answer: survey!.answers[0].answer,
         date: new Date(),
       });
       const surveyData = {
-        surveyId: survey!.id,
-        accountId: account!.id,
+        surveyId: new ObjectId(survey!.id),
+        accountId: new ObjectId(account!.id),
         answer: survey!.answers[1].answer,
         date: new Date(),
       };
