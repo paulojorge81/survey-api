@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 import type { SurveyResultModel } from '@/domain/models/survey-result';
 import type { SaveSurveyResultParams } from '@/domain/usecases/survey-result/save-survey-result';
 
@@ -9,6 +10,11 @@ export const mockSurveyResultParams = (): SaveSurveyResultParams => ({
 });
 
 export const mockSurveyResultModel = (): SurveyResultModel => ({
-  id: 'any_id',
-  ...mockSurveyResultParams(),
+  surveyId: 'any_survey_id',
+  question: 'any_question_id',
+  answers: [
+    { answer: 'any_answer', count: 1, percent: 50 },
+    { answer: 'other_answer', image: 'any_image', count: 10, percent: 80 },
+  ],
+  date: new Date(),
 });

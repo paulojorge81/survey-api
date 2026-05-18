@@ -1,5 +1,6 @@
 import { MongoClient, type Collection, type ObjectId, type Document } from 'mongodb';
 
+import type { SurveyResultAnswerModel } from '@/domain/models/survey-result';
 import type { SurveyAnswerModel } from '@/domain/models/surveys';
 
 export type AccountMongoModel = {
@@ -15,9 +16,9 @@ export type SurveyMongoModel = {
 } & MongoModel;
 
 export type SurveyResultMongoModel = {
-  surveyId: ObjectId | string;
-  accountId: ObjectId | string;
-  answer: string;
+  surveyId: string | ObjectId;
+  question: string;
+  answers: SurveyResultAnswerModel[];
   date: Date;
 } & MongoModel;
 

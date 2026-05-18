@@ -1,9 +1,15 @@
 import type { ObjectId } from 'mongodb';
 
 export type SurveyResultModel = {
-  id: string;
   surveyId: string | ObjectId;
-  accountId: string | ObjectId;
-  answer: string;
+  question: string;
+  answers: SurveyResultAnswerModel[];
   date: Date;
+};
+
+export type SurveyResultAnswerModel = {
+  image?: string;
+  answer: string;
+  count: number;
+  percent: number;
 };
