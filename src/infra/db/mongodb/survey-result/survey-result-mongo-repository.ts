@@ -13,7 +13,7 @@ import { MongoHelper, type SurveyResultMongoModel } from '@/infra/db/mongodb/hel
 import { QueryBuilder } from '../helpers';
 
 export class SurveyResultMongoRepository implements SaveSurveyResultRepository, LoadSurveyResultRepository {
-  async save(data: SaveSurveyResultParams): Promise<SurveyResultModel> {
+  async save(data: SaveSurveyResultParams): Promise<void> {
     const { surveyId, accountId } = data;
     const surveyObjectId = new ObjectId(surveyId);
     const accountObjectId = new ObjectId(accountId);
@@ -33,10 +33,6 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository, 
         upsert: true,
       },
     );
-
-    const surveyResult = await this.loadBySurveyId(surveyId);
-
-    return surveyResult;
   }
 
   async loadBySurveyId(surveyId: string | ObjectId): Promise<SurveyResultModel> {

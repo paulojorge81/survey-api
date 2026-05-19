@@ -75,48 +75,42 @@ describe('Account Mongo Repository', () => {
       const survey = await makeSurvey();
       const account = await makeAccount();
       const sut = makeSut();
-      const surveyData = {
+      await sut.save({
         surveyId: survey!.id,
         accountId: account!.id,
         answer: survey!.answers[0].answer,
         date: new Date(),
-      };
-      const surveyResult = await sut.save(surveyData);
-      await surveyCollection.findOne({ question: 'any_question' });
+      });
+      const surveyResult = await surveyResultCollection.findOne({
+        surveyId: new ObjectId(survey!.id),
+        accountId: new ObjectId(account!.id),
+      });
       expect(surveyResult).toBeTruthy();
-      expect(surveyResult.surveyId).toEqual(new ObjectId(survey!.id));
-      expect(surveyResult.answers[0].answer).toBe(survey!.answers[0].answer);
-      expect(surveyResult.answers[0].count).toBe(1);
-      expect(surveyResult.answers[0].percent).toBe(100);
-      expect(surveyResult.answers[1].count).toBe(0);
-      expect(surveyResult.answers[1].percent).toBe(0);
     });
 
     test('Should update survey result if its not new', async () => {
       const survey = await makeSurvey();
       const account = await makeAccount();
       const sut = makeSut();
-      await surveyResultCollection.insertOne({
-        surveyId: survey!.id,
-        accountId: account!.id,
-        answer: survey!.answers[0].answer,
-        date: new Date(),
-      });
       const surveyData = {
         surveyId: survey!.id,
         accountId: account!.id,
-        answer: survey!.answers[1].answer,
         date: new Date(),
       };
-      const surveyResult = await sut.save(surveyData);
-      await surveyCollection.findOne({ question: 'any_question' });
+      await surveyResultCollection.insertOne({
+        ...surveyData,
+        answer: survey!.answers[0].answer,
+      });
+
+      await sut.save({ ...surveyData, answer: survey!.answers[1].answer });
+      const surveyResult = await surveyResultCollection
+        .find({
+          surveyId: new ObjectId(survey!.id),
+          accountId: new ObjectId(account!.id),
+        })
+        .toArray();
       expect(surveyResult).toBeTruthy();
-      expect(surveyResult.surveyId).toEqual(new ObjectId(survey!.id));
-      expect(surveyResult.answers[0].answer).toBe(survey!.answers[1].answer);
-      expect(surveyResult.answers[0].count).toBe(1);
-      expect(surveyResult.answers[0].percent).toBe(100);
-      expect(surveyResult.answers[1].count).toBe(0);
-      expect(surveyResult.answers[1].percent).toBe(0);
+      expect(surveyResult.length).toBe(1);
     });
   });
 
