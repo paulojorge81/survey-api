@@ -4,8 +4,8 @@ import type { LoadSurveyResult } from '@/domain/usecases/survey-result/load-surv
 
 export class DbLoadSurveyResult implements LoadSurveyResult {
   constructor(private readonly loadSurveyResultRepository: LoadSurveyResultRepository) {}
-  async load(surveyId: string): Promise<SurveyResultModel | null> {
-    await this.loadSurveyResultRepository.loadBySurveyId(surveyId);
-    return null;
+  async load(surveyId: string): Promise<SurveyResultModel> {
+    const surveyResult = await this.loadSurveyResultRepository.loadBySurveyId(surveyId);
+    return surveyResult;
   }
 }
