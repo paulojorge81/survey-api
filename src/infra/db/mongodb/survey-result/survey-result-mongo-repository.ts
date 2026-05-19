@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { ObjectId } from 'mongodb';
 
+import type { LoadSurveyResultRepository } from '@/data/usecases/survey-result/load-survey-result/db-load-survey-result-protocols';
 import type {
   SaveSurveyResultParams,
   SaveSurveyResultRepository,
@@ -11,7 +12,7 @@ import { MongoHelper, type SurveyResultMongoModel } from '@/infra/db/mongodb/hel
 
 import { QueryBuilder } from '../helpers';
 
-export class SurveyResultMongoRepository implements SaveSurveyResultRepository {
+export class SurveyResultMongoRepository implements SaveSurveyResultRepository, LoadSurveyResultRepository {
   async save(data: SaveSurveyResultParams): Promise<SurveyResultModel> {
     const { surveyId, accountId } = data;
     const surveyObjectId = new ObjectId(surveyId);
@@ -38,7 +39,7 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository {
     return surveyResult;
   }
 
-  private async loadBySurveyId(surveyId: string | ObjectId): Promise<SurveyResultModel> {
+  async loadBySurveyId(surveyId: string | ObjectId): Promise<SurveyResultModel> {
     const surveyResultCollection = await MongoHelper.getCollection<SurveyResultMongoModel>('surveyResults');
 
     const query = new QueryBuilder()
@@ -195,6 +196,7 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository {
       })
       .build();
     const surveyResult = await surveyResultCollection.aggregate<SurveyResultModel>(query).toArray();
+
     return surveyResult[0];
   }
 }
