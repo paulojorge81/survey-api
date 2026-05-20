@@ -35,7 +35,7 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository, 
     );
   }
 
-  async loadBySurveyId(surveyId: string | ObjectId): Promise<SurveyResultModel> {
+  async loadBySurveyId(surveyId: string | ObjectId): Promise<SurveyResultModel | null> {
     const surveyResultCollection = await MongoHelper.getCollection<SurveyResultMongoModel>('surveyResults');
 
     const query = new QueryBuilder()
