@@ -9,9 +9,18 @@ export class DbLoadSurveyResult implements LoadSurveyResult {
     private readonly loadSurveyByIdRepository: LoadSurveyByIdRepository,
   ) {}
   async load(surveyId: string): Promise<SurveyResultModel | null> {
-    const surveyResult = await this.loadSurveyResultRepository.loadBySurveyId(surveyId);
+    let surveyResult = await this.loadSurveyResultRepository.loadBySurveyId(surveyId);
     if (!surveyResult) {
-      await this.loadSurveyByIdRepository.loadById(surveyId);
+      const survey = await this.loadSurveyByIdRepository.loadById(surveyId);
+      if (survey) {
+        const EMPTY = 0;
+        surveyResult = {
+          surveyId: survey.id,
+          question: survey.question,
+          date: survey.date,
+          answers: survey.answers.map((answer) => ({ count: EMPTY, percent: EMPTY, ...answer })),
+        };
+      }
     }
     return surveyResult;
   }
