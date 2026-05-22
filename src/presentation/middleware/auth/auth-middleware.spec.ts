@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/only-throw-error */
 import type { LoadAccountByToken, HttpRequest } from '@/presentation/middleware/auth/auth-middleware-protocols';
 
 import { throwError } from '@/domain/test';
@@ -56,5 +57,14 @@ describe('Auth Middleware', () => {
     jest.spyOn(loadAccountByTokenStub, 'load').mockImplementationOnce(throwError);
     const httpResponse = await sut.handle(mockRequest());
     expect(httpResponse).toEqual(serverError(new Error()));
+  });
+
+  test('Should return 500 with default error if non-Error is thrown', async () => {
+    const { sut, loadAccountByTokenStub } = makeSut();
+    jest.spyOn(loadAccountByTokenStub, 'load').mockImplementationOnce(() => {
+      throw 'any_error';
+    });
+    const httpResponse = await sut.handle(mockRequest());
+    expect(httpResponse).toEqual(serverError(new Error('Internal server error')));
   });
 });

@@ -8,8 +8,15 @@ const config = {
   roots: ['<rootDir>/src'],
   clearMocks: true,
   collectCoverage: true,
-  collectCoverageFrom: ['<rootDir>/src/**/*', '!<rootDir>/src/main/**', '!**/test/**'],
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.ts',
+    '!<rootDir>/src/main/**',
+    '!<rootDir>/src/domain/**',
+    '!<rootDir>/src/**/*-protocols.ts',
+    '!**/protocols/**',
+    '!**/test/**'],
   coverageDirectory: 'coverage',
+  testEnvironment: 'node',
   coverageProvider: 'v8',
   preset: '@shelf/jest-mongodb',
   testMatch: ['**/*.spec.ts', '**/*.test.ts'],
@@ -17,7 +24,8 @@ const config = {
     '.+\\.ts$': 'ts-jest',
   },
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1'
+    '@/tests/(.*)': '<rootDir>/tests/$1',
+    '@/(.*)': '<rootDir>/src/$1'
   },
 };
 
