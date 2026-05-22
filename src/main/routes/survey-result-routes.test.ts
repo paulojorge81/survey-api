@@ -88,4 +88,11 @@ describe('Survey Results Routes', () => {
         .expect(HttpStatusCode.SUCCESS);
     });
   });
+
+  describe('GET /surveys/:surveyId/results', () => {
+    test('Should return 403 on save surveys without accessToken', async () => {
+      const route = '/api/surveys/any_id/results';
+      await request(app).get(route).expect(HttpStatusCode.FORBIDDEN);
+    });
+  });
 });
