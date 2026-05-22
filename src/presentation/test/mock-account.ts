@@ -1,4 +1,5 @@
 import type { AccountModel } from '@/domain/models/account';
+import type { AuthenticationModel } from '@/domain/models/authentication';
 import type { AddAccount, AddAccountParams } from '@/domain/usecases/account/add-account';
 import type { Authentication, AuthenticationParams } from '@/domain/usecases/account/authentication';
 import type { LoadAccountByToken } from '@/domain/usecases/account/load-account-by-token';
@@ -18,8 +19,8 @@ export const mockAddAccount = (): AddAccount => {
 
 export const mockAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth(authentication: AuthenticationParams): Promise<string> {
-      return await Promise.resolve('any_token');
+    async auth(authentication: AuthenticationParams): Promise<AuthenticationModel> {
+      return await Promise.resolve({ accessToken: 'any_token', name: 'any_name' });
     }
   }
 
