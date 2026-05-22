@@ -3,9 +3,10 @@ import type {
   LoadSurveyById,
 } from '@/presentation/controllers/survey-result/load-survey-result/load-survey-result-controller-protocols';
 
+import { throwError } from '@/domain/test';
 import { LoadSurveyResultController } from '@/presentation/controllers/survey-result/load-survey-result/load-survey-result-controller';
 import { InvalidParamError } from '@/presentation/errors';
-import { forbidden } from '@/presentation/helpers/http/http-helper';
+import { forbidden, serverError } from '@/presentation/helpers/http/http-helper';
 import { mockLoadSurveyById } from '@/presentation/test';
 
 type SutTypes = {
@@ -43,5 +44,13 @@ describe('LoadSurveyResult Controller', () => {
     jest.spyOn(loadSurveyByIdStub, 'loadById').mockReturnValueOnce(Promise.resolve(null));
     const httpReponse = await sut.handle(httpeRequest);
     expect(httpReponse).toEqual(forbidden(new InvalidParamError('surveyId')));
+  });
+
+  test('Should return 500 if LoadSurveyById throws', async () => {
+    const { sut, loadSurveyByIdStub } = makeSut();
+    const httpeRequest = makeFakeRequest();
+    jest.spyOn(loadSurveyByIdStub, 'loadById').mockImplementationOnce(throwError);
+    const httpReponse = await sut.handle(httpeRequest);
+    expect(httpReponse).toEqual(serverError(new Error()));
   });
 });
