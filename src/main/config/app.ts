@@ -3,10 +3,12 @@ import express from 'express';
 import { setupSwagger } from '@/main/config/config-swagger';
 import { setupMiddlewares } from '@/main/config/middlewares';
 import { setupRoutes } from '@/main/config/routes';
+import { setupStaticFiles } from '@/main/config/static-files';
 
 const app = express();
 
 const start = async (): Promise<void> => {
+  setupStaticFiles(app);
   setupSwagger(app);
   setupMiddlewares(app);
   await setupRoutes(app);

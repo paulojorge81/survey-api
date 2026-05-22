@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node dist/main/server.js",
     "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/main/server.js",
+    "postbuild": "copyfiles -u 1 public/**/* dist/static",
     "dev:debug": "tsx watch src/main/server.ts",
     "build": "rimraf dist && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "dev:up": "pnpm build && docker compose -f docker-compose.dev.yml up -d",
@@ -42,6 +43,7 @@
     "@types/swagger-ui-express": "^4.1.8",
     "@types/validator": "^13.15.10",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "copyfiles": "^2.4.1",
     "eslint": "^10.3.0",
     "eslint-config-love": "^153.0.0",
     "eslint-config-prettier": "^10.1.8",
