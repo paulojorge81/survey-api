@@ -90,9 +90,30 @@ describe('Survey Results Routes', () => {
   });
 
   describe('GET /surveys/:surveyId/results', () => {
-    test('Should return 403 on save surveys without accessToken', async () => {
+    test('Should return 403 on load surveys without accessToken', async () => {
       const route = '/api/surveys/any_id/results';
       await request(app).get(route).expect(HttpStatusCode.FORBIDDEN);
+    });
+
+    test('Should return 200 on load survey result with accessToken', async () => {
+      const accessToken = await makeAccessToken();
+      const res = await surveyCollection.insertOne({
+        question: 'Question',
+        answers: [
+          {
+            image: 'http://image-name.com',
+            answer: 'answer 1',
+          },
+          {
+            answer: 'answer 2',
+          },
+        ],
+        date: new Date(),
+      });
+
+      const route = `/api/surveys/${res.insertedId.toHexString()}/results`;
+
+      await request(app).get(route).set('x-access-token', accessToken).expect(HttpStatusCode.SUCCESS);
     });
   });
 });
