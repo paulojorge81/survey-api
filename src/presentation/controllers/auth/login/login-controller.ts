@@ -25,15 +25,13 @@ export class LoginController implements Controller {
         body: { email, password },
       } = httpRequest;
 
-      const accessToken = await this.authentication.auth({ email, password });
+      const athentictaionModel = await this.authentication.auth({ email, password });
 
-      if (!accessToken) {
+      if (!athentictaionModel) {
         return unauthorized();
       }
 
-      return ok({
-        accessToken,
-      });
+      return ok(athentictaionModel);
     } catch (error) {
       return serverError(error instanceof Error ? error : new Error('Internal server error'));
     }
