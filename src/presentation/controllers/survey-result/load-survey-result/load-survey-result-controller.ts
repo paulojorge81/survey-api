@@ -7,8 +7,7 @@ import type {
 } from '@/presentation/controllers/survey-result/load-survey-result/load-survey-result-controller-protocols';
 
 import { InvalidParamError } from '@/presentation/errors';
-import { forbidden, serverError } from '@/presentation/helpers/http/http-helper';
-import { HttpStatusCode } from '@/presentation/http/http-status-code';
+import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper';
 
 export class LoadSurveyResultController implements Controller {
   constructor(
@@ -25,11 +24,8 @@ export class LoadSurveyResultController implements Controller {
       if (!survey) {
         return forbidden(new InvalidParamError('surveyId'));
       }
-      await this.loadSurveyResult.load(surveyId);
-      return {
-        body: {},
-        statusCode: HttpStatusCode.SUCCESS,
-      };
+      const suvreyResult = await this.loadSurveyResult.load(surveyId);
+      return ok(suvreyResult);
     } catch (error) {
       return serverError(error instanceof Error ? error : new Error('Internal server error'));
     }
