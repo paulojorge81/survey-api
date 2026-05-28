@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 import { ObjectId } from 'mongodb';
 
 import type { LoadSurveysRepository } from '@/data/protocols/db/survey/load-surveys-repository';
@@ -6,6 +7,7 @@ import type { LoadSurveyByIdRepository } from '@/data/usecases/survey/load-surve
 import type { SurveyModel } from '@/domain/models/surveys';
 import type { AddSurveyParams } from '@/domain/usecases/survey/add-survey';
 
+import { QueryBuilder } from '@/infra/db/mongodb/helpers';
 import { MongoHelper, type SurveyMongoModel } from '@/infra/db/mongodb/helpers/mongo-helper';
 
 export class SurveyMongoRepository implements AddSurveyRepository, LoadSurveysRepository, LoadSurveyByIdRepository {
@@ -15,9 +17,40 @@ export class SurveyMongoRepository implements AddSurveyRepository, LoadSurveysRe
     await Promise.resolve();
   }
 
-  async loadAll(): Promise<SurveyModel[]> {
+  async loadAll(accountId: string): Promise<SurveyModel[]> {
     const surveyCollection = await MongoHelper.getCollection<SurveyMongoModel>('surveys');
-    const surveys = await surveyCollection.find().toArray();
+    const query = new QueryBuilder()
+      .lookup({
+        from: 'surveyResults',
+        foreignField: 'surveyId',
+        localField: '_id',
+        as: 'result',
+      })
+      .project({
+        _id: 1,
+        question: 1,
+        answers: 1,
+        date: 1,
+        didAnswer: {
+          $gte: [
+            {
+              $size: {
+                $filter: {
+                  input: '$result',
+                  as: 'item',
+                  cond: {
+                    $eq: ['$$item.accountId', accountId],
+                  },
+                },
+              },
+            },
+            1,
+          ],
+        },
+      })
+      .build();
+
+    const surveys = await surveyCollection.aggregate<SurveyMongoModel>(query).toArray();
     return MongoHelper.mapCollection(surveys);
   }
 
