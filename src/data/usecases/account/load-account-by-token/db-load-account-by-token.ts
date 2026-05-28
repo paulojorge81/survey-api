@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/init-declarations */
 import type { AccountModel } from '@/data/usecases/account/add-account/db-add-account-protocols';
 import type {
   Decrypter,
@@ -12,7 +13,12 @@ export class DbLoadAccountByToken implements LoadAccountByToken {
   ) {}
 
   async load(accessToken: string, role?: string): Promise<AccountModel | null> {
-    const token = await this.decrypter.decrypt(accessToken);
+    let token: string | null;
+    try {
+      token = await this.decrypter.decrypt(accessToken);
+    } catch (error) {
+      return null;
+    }
     if (token) {
       const account = await this.loadAccountByTokenRepository.loadByToken(accessToken, role);
       if (account) return account;
