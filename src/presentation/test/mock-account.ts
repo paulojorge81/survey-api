@@ -1,3 +1,5 @@
+import { faker } from '@faker-js/faker';
+
 import type { AccountModel } from '@/domain/models/account';
 import type { AuthenticationModel } from '@/domain/models/authentication';
 import type { AddAccount, AddAccountParams } from '@/domain/usecases/account/add-account';
@@ -36,3 +38,39 @@ export const mockLoadAccountByToken = (): LoadAccountByToken => {
 
   return new LoadAccountByTokenStub();
 };
+
+export class AddAccountSpy implements AddAccount {
+  accountModel: AccountModel | null = mockAccountModel();
+  addAccountParams!: AddAccountParams;
+
+  async add(account: AddAccountParams): Promise<AccountModel | null> {
+    this.addAccountParams = account;
+    return await Promise.resolve(this.accountModel);
+  }
+}
+
+export class AuthenticationSpy implements Authentication {
+  authenticationParams!: AuthenticationParams;
+  token = faker.string.uuid();
+  name = faker.person.firstName();
+  isValid = true;
+
+  async auth(authenticationParams: AuthenticationParams): Promise<AuthenticationModel | null> {
+    this.authenticationParams = authenticationParams;
+    return this.isValid
+      ? await Promise.resolve({ accessToken: this.token, name: this.name })
+      : await Promise.resolve(null);
+  }
+}
+
+export class LoadAccountByTokenSpy implements LoadAccountByToken {
+  accountModel: AccountModel | null = mockAccountModel();
+  accessToken!: string;
+  role!: string;
+
+  async load(accessToken: string, role?: string): Promise<AccountModel | null> {
+    this.accessToken = accessToken;
+    this.role = role ?? '';
+    return await Promise.resolve(this.accountModel);
+  }
+}

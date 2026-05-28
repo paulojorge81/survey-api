@@ -14,11 +14,7 @@ export class LoadSurveysController implements Controller {
     try {
       const EMPTY = 0;
       const surveys = await this.loadSurveys.load();
-      if (surveys.length === EMPTY) {
-        return noContent();
-      }
-
-      return ok(surveys);
+      return surveys.length === EMPTY ? noContent() : ok(surveys);
     } catch (error) {
       return serverError(error instanceof Error ? error : new Error('Internal server error'));
     }

@@ -1,3 +1,5 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 import type { AddSurveyRepository } from '@/data/protocols/db/survey/add-survey-repository';
 import type { LoadSurveyByIdRepository } from '@/data/protocols/db/survey/load-survey-by-id-repository';
 import type { LoadSurveysRepository } from '@/data/protocols/db/survey/load-surveys-repository';
@@ -6,32 +8,31 @@ import type { AddSurveyParams } from '@/domain/usecases/survey/add-survey';
 
 import { mockSurveyModel, mockSurveyModels } from '@/domain/test';
 
-export const mockAddSurveyRepository = (): AddSurveyRepository => {
-  class AddSurveyRepositoryStub implements AddSurveyRepository {
-    async add(data: AddSurveyParams): Promise<void> {
-      await Promise.resolve();
-    }
+export class AddSurveyRepositorySpy implements AddSurveyRepository {
+  addSurveyParams!: AddSurveyParams;
+
+  async add(data: AddSurveyParams): Promise<void> {
+    this.addSurveyParams = data;
+    await Promise.resolve();
   }
+}
 
-  return new AddSurveyRepositoryStub();
-};
+export class LoadSurveyByIdRepositorySpy implements LoadSurveyByIdRepository {
+  surveyModel = mockSurveyModel();
+  id!: string;
 
-export const mockLoadSurveyByIdRepository = (): LoadSurveyByIdRepository => {
-  class LoadSurveysRepositoryStub implements LoadSurveyByIdRepository {
-    async loadById(id: string): Promise<SurveyModel> {
-      return await Promise.resolve(mockSurveyModel());
-    }
+  async loadById(id: string): Promise<SurveyModel> {
+    this.id = id;
+    return await Promise.resolve(this.surveyModel);
   }
+}
 
-  return new LoadSurveysRepositoryStub();
-};
+export class LoadSurveysRepositorySpy implements LoadSurveysRepository {
+  surveyModels = mockSurveyModels();
+  callsCount = 0;
 
-export const mmockLoadSurveysRepository = (): LoadSurveysRepository => {
-  class LoadSurveysRepositoryStub implements LoadSurveysRepository {
-    async loadAll(): Promise<SurveyModel[]> {
-      return await Promise.resolve(mockSurveyModels());
-    }
+  async loadAll(): Promise<SurveyModel[]> {
+    this.callsCount++;
+    return await Promise.resolve(this.surveyModels);
   }
-
-  return new LoadSurveysRepositoryStub();
-};
+}

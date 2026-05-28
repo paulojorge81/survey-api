@@ -15,10 +15,7 @@ jest.mock('bcrypt', () => ({
 
 const SALT = 12;
 
-const makeSut = (): BcryptAdapter => {
-  const sut = new BcryptAdapter(SALT);
-  return sut;
-};
+const makeSut = (): BcryptAdapter => new BcryptAdapter(SALT);
 
 describe('Bcrypt Adapter', () => {
   test('Should call hash with correct values', async () => {
