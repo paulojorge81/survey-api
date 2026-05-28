@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
-/* eslint-disable no-plusplus */
 import type { SurveyModel } from '@/domain/models/surveys';
 import type { AddSurvey, AddSurveyParams } from '@/domain/usecases/survey/add-survey';
 import type { LoadSurveyById } from '@/domain/usecases/survey/load-survey-by-id';
@@ -48,10 +46,10 @@ export class AddSurveySpy implements AddSurvey {
 
 export class LoadSurveysSpy implements LoadSurveys {
   surveyModels = mockSurveyModels();
-  callsCount = 0;
+  accountId!: string;
 
-  async load(): Promise<SurveyModel[]> {
-    this.callsCount++;
+  async load(accountId: string): Promise<SurveyModel[]> {
+    this.accountId = accountId;
     return await Promise.resolve(this.surveyModels);
   }
 }

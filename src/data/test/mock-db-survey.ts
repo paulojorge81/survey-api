@@ -1,5 +1,3 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable @typescript-eslint/no-magic-numbers */
 import type { AddSurveyRepository } from '@/data/protocols/db/survey/add-survey-repository';
 import type { LoadSurveyByIdRepository } from '@/data/protocols/db/survey/load-survey-by-id-repository';
 import type { LoadSurveysRepository } from '@/data/protocols/db/survey/load-surveys-repository';
@@ -29,10 +27,10 @@ export class LoadSurveyByIdRepositorySpy implements LoadSurveyByIdRepository {
 
 export class LoadSurveysRepositorySpy implements LoadSurveysRepository {
   surveyModels = mockSurveyModels();
-  callsCount = 0;
+  accountId!: string;
 
-  async loadAll(): Promise<SurveyModel[]> {
-    this.callsCount++;
+  async loadAll(accountId: string): Promise<SurveyModel[]> {
+    this.accountId = accountId;
     return await Promise.resolve(this.surveyModels);
   }
 }
