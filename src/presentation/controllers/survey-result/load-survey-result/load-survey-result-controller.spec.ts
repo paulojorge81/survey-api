@@ -16,6 +16,7 @@ type SutTypes = {
 };
 
 const mockRequest = (): HttpRequest => ({
+  accountId: faker.string.uuid(),
   params: {
     surveyId: faker.string.uuid(),
   },
@@ -62,11 +63,12 @@ describe('LoadSurveyResult Controller', () => {
     expect(httpResponse).toEqual(serverError(new Error()));
   });
 
-  test('Should call LoadSurveyResult with correct value', async () => {
+  test('Should call LoadSurveyResult with correct values', async () => {
     const { sut, loadSurveyResultSpy } = makeSut();
     const httpRequest = mockRequest();
     await sut.handle(httpRequest);
     expect(loadSurveyResultSpy.surveyId).toBe(httpRequest.params.surveyId);
+    expect(loadSurveyResultSpy.accountId).toBe(httpRequest.accountId);
   });
 
   test('Should return 500 if LoadSurveyResult throws', async () => {

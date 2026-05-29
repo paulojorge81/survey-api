@@ -5,6 +5,7 @@ export const surveyResultAnswerSchema = {
     answer: { type: 'string' },
     count: { type: 'number' },
     percent: { type: 'number' },
+    isCurrentAccountAnswer: { type: 'number' },
   },
-  required: ['answer', 'count', 'percent'],
+  required: ['answer', 'count', 'percent', 'isCurrentAccountAnswer'],
 };

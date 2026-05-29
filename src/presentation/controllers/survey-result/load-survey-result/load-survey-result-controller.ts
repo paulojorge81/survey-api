@@ -19,12 +19,13 @@ export class LoadSurveyResultController implements Controller {
     try {
       const {
         params: { surveyId },
+        accountId,
       } = httpeRequest;
       const survey = await this.loadSurveyById.loadById(surveyId);
       if (!survey) {
         return forbidden(new InvalidParamError('surveyId'));
       }
-      const suvreyResult = await this.loadSurveyResult.load(surveyId);
+      const suvreyResult = await this.loadSurveyResult.load(surveyId, accountId ?? '');
       return ok(suvreyResult);
     } catch (error) {
       return serverError(error instanceof Error ? error : new Error('Internal server error'));
