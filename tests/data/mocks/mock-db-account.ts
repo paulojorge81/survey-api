@@ -1,39 +1,44 @@
+import { faker } from '@faker-js/faker';
+
 import type { LoadAccountByTokenRepository, UpdateAccessTokenRepository } from '@/data/protocols';
 import type { AddAccountRepository } from '@/data/protocols/db/account/add-account-repository';
 import type { LoadAccountByEmailRepository } from '@/data/protocols/db/account/load-account-by-email-repository';
-import type { AccountModel } from '@/domain/models/account';
-
-import { mockAccountModel } from '@/tests/domain/mocks';
 
 export class AddAccountRepositorySpy implements AddAccountRepository {
-  accountModel = mockAccountModel();
+  result = true;
   addAccountParams!: AddAccountRepository.Params;
 
   async add(data: AddAccountRepository.Params): Promise<AddAccountRepository.Result> {
     this.addAccountParams = data;
-    return await Promise.resolve(this.accountModel);
+    return await Promise.resolve(this.result);
   }
 }
 
 export class LoadAccountByEmailRepositorySpy implements LoadAccountByEmailRepository {
-  accountModel: AccountModel | null = mockAccountModel();
+  result: LoadAccountByEmailRepository.Result | null = {
+    id: faker.string.uuid(),
+    name: faker.person.firstName(),
+    password: faker.internet.password(),
+  };
   email!: string;
 
-  async loadByEmail(email: string): Promise<AccountModel | null> {
+  async loadByEmail(email: string): Promise<LoadAccountByEmailRepository.Result | null> {
     this.email = email;
-    return await Promise.resolve(this.accountModel);
+    return await Promise.resolve(this.result);
   }
 }
 
 export class LoadAccountByTokenRepositorySpy implements LoadAccountByTokenRepository {
-  accountModel: AccountModel | null = mockAccountModel();
+  result: LoadAccountByTokenRepository.Result | null = {
+    id: faker.string.uuid(),
+  };
   token!: string;
   role!: string;
 
   async loadByToken(token: string, role?: string): Promise<LoadAccountByTokenRepository.Result | null> {
     this.token = token;
     this.role = role ?? '';
-    return await Promise.resolve(this.accountModel);
+    return await Promise.resolve(this.result);
   }
 }
 

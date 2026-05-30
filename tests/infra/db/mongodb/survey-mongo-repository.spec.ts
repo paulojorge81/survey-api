@@ -1,11 +1,8 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/init-declarations */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import type { Collection } from 'mongodb';
 
-import type { AccountModel } from '@/domain/models/account';
-
-import { type AccountMongoModel, MongoHelper, type SurveyMongoModel } from '@/infra/db/mongodb/mongo-helper';
+import { MongoHelper, type SurveyMongoModel } from '@/infra/db/mongodb/mongo-helper';
 import { SurveyMongoRepository } from '@/infra/db/mongodb/survey-mongo-repository';
 import { mockAddAccountParams, mockAddSurveyParams } from '@/tests/domain/mocks';
 
@@ -15,11 +12,9 @@ let surveyCollection!: Collection;
 let surveyResultCollection!: Collection;
 let accountCollection!: Collection;
 
-const makeAccount = async (): Promise<AccountModel | null> => {
+const makeAccountId = async (): Promise<string> => {
   const res = await accountCollection.insertOne(mockAddAccountParams());
-  const account = await accountCollection.findOne<AccountMongoModel>({ _id: res.insertedId });
-  if (!account) return null;
-  return MongoHelper.mapModel(account);
+  return res.insertedId.toHexString();
 };
 
 describe('Account Mongo Repository', () => {
@@ -54,7 +49,7 @@ describe('Account Mongo Repository', () => {
 
   describe('loadAll()', () => {
     test('Should load all surveys on success', async () => {
-      const account = await makeAccount();
+      const accountId = await makeAccountId();
       const addSurveyModels = [mockAddSurveyParams(), mockAddSurveyParams()];
       const result = await surveyCollection.insertMany(addSurveyModels);
       const survey = await surveyCollection.findOne<SurveyMongoModel>({
@@ -63,12 +58,12 @@ describe('Account Mongo Repository', () => {
 
       await surveyResultCollection.insertOne({
         surveyId: survey?._id,
-        accountId: account!.id,
+        accountId,
         answer: survey?.answers[0].answer,
         date: new Date(),
       });
       const sut = makeSut();
-      const surveys = await sut.loadAll(account!.id);
+      const surveys = await sut.loadAll(accountId);
       expect(surveys.length).toBe(2);
       expect(surveys[0].id).toBeTruthy();
       expect(surveys[0].question).toBe(addSurveyModels[0].question);
@@ -78,9 +73,9 @@ describe('Account Mongo Repository', () => {
     });
 
     test('Should load empty list', async () => {
-      const account = await makeAccount();
+      const accountId = await makeAccountId();
       const sut = makeSut();
-      const surveys = await sut.loadAll(account!.id);
+      const surveys = await sut.loadAll(accountId);
       expect(surveys.length).toBe(0);
     });
   });
