@@ -1,0 +1,43 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
+import type { LoadSurveyById, SaveSurveyResult } from '@/domain/usecases';
+import type { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols';
+
+import { InvalidParamError } from '@/presentation/errors';
+import { forbidden, ok, serverError } from '@/presentation/helpers/http-helper';
+
+export class SaveSurveyResultController implements Controller {
+  constructor(
+    private readonly loadSurveyById: LoadSurveyById,
+    private readonly saveSurveyResult: SaveSurveyResult,
+  ) {}
+  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+    try {
+      const {
+        params: { surveyId },
+        body: { answer },
+        accountId,
+      } = httpRequest;
+      const survey = await this.loadSurveyById.loadById(surveyId);
+      if (survey) {
+        const answers = survey.answers.map((a) => a.answer);
+        if (!answers.includes(answer)) {
+          return forbidden(new InvalidParamError('answer'));
+        }
+      } else {
+        return forbidden(new InvalidParamError('surveyId'));
+      }
+
+      const surveyResult = await this.saveSurveyResult.save({
+        accountId: accountId!,
+        surveyId,
+        answer,
+        date: new Date(),
+      });
+
+      return ok(surveyResult);
+    } catch (error) {
+      return serverError(error instanceof Error ? error : new Error('Internal server error'));
+    }
+  }
+}

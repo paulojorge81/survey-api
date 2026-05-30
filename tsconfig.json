@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
-    "rootDir": "src",
+    "rootDirs": [
+      "src",
+      "tests"
+    ],
     "outDir": "dist",
     "module": "commonjs",
     "target": "ES2023",
@@ -8,6 +11,9 @@
     "esModuleInterop": true,
     "allowJs": true,
     "paths": {
+      "@/tests/*": [
+        "./tests/*"
+      ],
       "@/*": [
         "./src/*"
       ]
@@ -20,5 +26,6 @@
   "exclude": [],
   "include": [
     "src/**/*.ts",
+    "tests/**/*.ts"
   ]
 }

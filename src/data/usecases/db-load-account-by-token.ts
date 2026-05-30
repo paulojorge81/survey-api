@@ -1,0 +1,28 @@
+/* eslint-disable @typescript-eslint/init-declarations */
+
+import type { Decrypter, LoadAccountByTokenRepository } from '@/data/protocols';
+import type { AccountModel } from '@/domain/models/account';
+import type { LoadAccountByToken } from '@/domain/usecases';
+
+export class DbLoadAccountByToken implements LoadAccountByToken {
+  constructor(
+    private readonly decrypter: Decrypter,
+    private readonly loadAccountByTokenRepository: LoadAccountByTokenRepository,
+  ) {}
+
+  async load(accessToken: string, role?: string): Promise<AccountModel | null> {
+    let token: string | null;
+    try {
+      token = await this.decrypter.decrypt(accessToken);
+    } catch (error) {
+      return null;
+    }
+    if (token) {
+      const account = await this.loadAccountByTokenRepository.loadByToken(accessToken, role);
+      if (account) {
+        return account;
+      }
+    }
+    return null;
+  }
+}

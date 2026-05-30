@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper';
+import { MongoHelper } from '@/infra/db';
 import { env } from '@/main/config/env';
 
 const port = 5050;

@@ -5,21 +5,17 @@
 
 /** @type {import('jest').Config} */
 const config = {
-  roots: ['<rootDir>/src'],
+  roots: ['<rootDir>/tests'],
   clearMocks: true,
   collectCoverage: true,
   collectCoverageFrom: [
     '<rootDir>/src/**/*.ts',
     '!<rootDir>/src/main/**',
-    '!<rootDir>/src/domain/**',
-    '!<rootDir>/src/**/*-protocols.ts',
-    '!**/protocols/**',
-    '!**/test/**'],
+  ],
   coverageDirectory: 'coverage',
   testEnvironment: 'node',
   coverageProvider: 'v8',
   preset: '@shelf/jest-mongodb',
-  testMatch: ['**/*.spec.ts', '**/*.test.ts'],
   transform: {
     '.+\\.ts$': 'ts-jest',
   },
