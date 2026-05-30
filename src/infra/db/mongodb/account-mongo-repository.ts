@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 import { ObjectId } from 'mongodb';
 
 import type {
@@ -35,12 +36,15 @@ export class AccountMongoRepository
     return MongoHelper.mapModel(account);
   }
 
-  async loadByToken(token: string, role?: string): Promise<AccountModel | null> {
+  async loadByToken(token: string, role?: string): Promise<LoadAccountByTokenRepository.Result | null> {
     const accountColletion = await MongoHelper.getCollection<AccountMongoModel>('accounts');
-    const account = await accountColletion.findOne({
-      accessToken: token,
-      $or: [{ role }, { role: 'admin' }],
-    });
+    const account = await accountColletion.findOne(
+      {
+        accessToken: token,
+        $or: [{ role }, { role: 'admin' }],
+      },
+      { projection: { _id: 1 } },
+    );
     if (!account) return null;
 
     return MongoHelper.mapModel(account);
