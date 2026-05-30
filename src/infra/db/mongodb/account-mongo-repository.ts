@@ -4,6 +4,7 @@ import { ObjectId } from 'mongodb';
 import type {
   AddAccountRepository,
   LoadAccountByEmailRepository,
+  CheckAccountByEmailRepository,
   LoadAccountByTokenRepository,
   UpdateAccessTokenRepository,
 } from '@/data/protocols';
@@ -15,13 +16,20 @@ export class AccountMongoRepository
     AddAccountRepository,
     LoadAccountByEmailRepository,
     UpdateAccessTokenRepository,
-    LoadAccountByTokenRepository
+    LoadAccountByTokenRepository,
+    CheckAccountByEmailRepository
 {
   async add(accountData: AddAccountRepository.Params): Promise<AddAccountRepository.Result> {
     const accountCollection = await MongoHelper.getCollection('accounts');
     const accountToInsert = { ...accountData };
     const result = await accountCollection.insertOne(accountToInsert);
     return !!result.insertedId;
+  }
+
+  async checkByEmail(email: string): Promise<CheckAccountByEmailRepository.Result | null> {
+    const accountColletion = await MongoHelper.getCollection<AccountMongoModel>('accounts');
+    const account = await accountColletion.findOne({ email }, { projection: { _id: 1 } });
+    return account !== null;
   }
 
   async loadByEmail(email: string): Promise<LoadAccountByEmailRepository.Result | null> {
