@@ -1,17 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import type { LoadAccountByTokenRepository, UpdateAccessTokenRepository } from '@/data/protocols';
 import type { AddAccountRepository } from '@/data/protocols/db/account/add-account-repository';
 import type { LoadAccountByEmailRepository } from '@/data/protocols/db/account/load-account-by-email-repository';
 import type { AccountModel } from '@/domain/models/account';
-import type { AddAccountParams } from '@/domain/usecases/add-account';
 
 import { mockAccountModel } from '@/tests/domain/mocks';
 
 export class AddAccountRepositorySpy implements AddAccountRepository {
   accountModel = mockAccountModel();
-  addAccountParams!: AddAccountParams;
+  addAccountParams!: AddAccountRepository.Params;
 
-  async add(data: AddAccountParams): Promise<AccountModel> {
+  async add(data: AddAccountRepository.Params): Promise<AddAccountRepository.Result> {
     this.addAccountParams = data;
     return await Promise.resolve(this.accountModel);
   }

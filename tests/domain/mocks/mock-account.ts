@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
 import type { AccountModel } from '@/domain/models/account';
-import type { AddAccountParams } from '@/domain/usecases/add-account';
+import type { AddAccount } from '@/domain/usecases';
 import type { AuthenticationParams } from '@/domain/usecases/authentication';
 
 export const mockAuthenticationParams = (): AuthenticationParams => ({
@@ -9,7 +9,7 @@ export const mockAuthenticationParams = (): AuthenticationParams => ({
   password: faker.internet.password(),
 });
 
-export const mockAddAccountParams = (): AddAccountParams => ({
+export const mockAddAccountParams = (): AddAccount.Params => ({
   name: faker.person.firstName(),
   ...mockAuthenticationParams(),
 });

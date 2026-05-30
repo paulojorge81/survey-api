@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import type { NextFunction, Request, Response } from 'express';
 
-import type { HttpRequest, HttpResponse, Middleware } from '@/presentation/protocols';
+import type { HttpResponse, Middleware } from '@/presentation/protocols';
 
 import { HttpStatusCode } from '@/presentation/http';
 
 export const adaptMiddleware = (middleware: Middleware) => async (req: Request, res: Response, next: NextFunction) => {
-  const httpRequest: HttpRequest = {
-    headers: req.headers,
+  const httpRequest = {
+    accessToken: req.headers?.['x-access-token'],
+    ...(req.headers || {}),
   };
   const httpResponse: HttpResponse = await middleware.handle(httpRequest);
   if (httpResponse.statusCode === HttpStatusCode.SUCCESS) {

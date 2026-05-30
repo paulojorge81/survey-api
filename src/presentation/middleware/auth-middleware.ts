@@ -1,5 +1,5 @@
 import type { LoadAccountByToken } from '@/domain/usecases';
-import type { HttpRequest, HttpResponse, Middleware } from '@/presentation/protocols';
+import type { HttpResponse, Middleware } from '@/presentation/protocols';
 
 import { AccessDeniedError } from '@/presentation/errors';
 import { forbidden, ok, serverError } from '@/presentation/helpers/http-helper';
@@ -10,9 +10,9 @@ export class AuthMiddleware implements Middleware {
     private readonly role?: string,
   ) {}
 
-  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle(request: AuthMiddleware.Request): Promise<HttpResponse> {
     try {
-      const accessToken = httpRequest.headers?.['x-access-token'];
+      const { accessToken } = request;
       if (accessToken) {
         const account = await this.loadAccountByToken.load(accessToken, this.role);
         if (account) {
@@ -25,4 +25,10 @@ export class AuthMiddleware implements Middleware {
       return serverError(error instanceof Error ? error : new Error('Internal server error'));
     }
   }
+}
+
+export namespace AuthMiddleware {
+  export type Request = {
+    accessToken?: string;
+  };
 }

@@ -3,8 +3,6 @@
 import { faker } from '@faker-js/faker';
 import MockDate from 'mockdate';
 
-import type { HttpRequest } from '@/presentation/protocols';
-
 import { SaveSurveyResultController } from '@/presentation/controllers/survey/save-survey-result-controller';
 import { InvalidParamError } from '@/presentation/errors';
 import { forbidden, ok, serverError } from '@/presentation/helpers/http-helper';
@@ -17,13 +15,9 @@ type SutTypes = {
   saveSurveyResultSpy: SaveSurveyResultSpy;
 };
 
-const mockRequest = (answer: string | null = null): HttpRequest => ({
-  params: {
-    surveyId: faker.string.uuid(),
-  },
-  body: {
-    answer,
-  },
+const mockRequest = (answer?: string): SaveSurveyResultController.Request => ({
+  surveyId: faker.string.uuid(),
+  answer: answer ?? '',
   accountId: faker.string.uuid(),
 });
 
@@ -45,9 +39,9 @@ describe('SaveSurveyResult Controller', () => {
 
   test('Should call LoadSurveyById with correct values', async () => {
     const { sut, loadSurveyByIdSpy } = makeSut();
-    const httpRequest = mockRequest();
-    await sut.handle(httpRequest);
-    expect(loadSurveyByIdSpy.id).toBe(httpRequest.params.surveyId);
+    const request = mockRequest();
+    await sut.handle(request);
+    expect(loadSurveyByIdSpy.id).toBe(request.surveyId);
   });
 
   test('Should return 403 if LoadSurveyById returns null', async () => {
@@ -72,28 +66,28 @@ describe('SaveSurveyResult Controller', () => {
 
   test('Should call SaveSurveyResult with correct values', async () => {
     const { sut, saveSurveyResultSpy, loadSurveyByIdSpy } = makeSut();
-    const httpRequest = mockRequest(loadSurveyByIdSpy.surveyModel?.answers[0].answer);
-    await sut.handle(httpRequest);
+    const request = mockRequest(loadSurveyByIdSpy.surveyModel?.answers[0].answer);
+    await sut.handle(request);
     expect(saveSurveyResultSpy.saveSurveyResultParams).toEqual({
-      surveyId: httpRequest.params.surveyId,
-      accountId: httpRequest.accountId,
+      surveyId: request.surveyId,
+      accountId: request.accountId,
       date: new Date(),
-      answer: httpRequest.body.answer,
+      answer: request.answer,
     });
   });
 
   test('Should return 500 if SaveSurveyResult throws', async () => {
     const { sut, saveSurveyResultSpy, loadSurveyByIdSpy } = makeSut();
     jest.spyOn(saveSurveyResultSpy, 'save').mockImplementationOnce(throwError);
-    const httpRequest = mockRequest(loadSurveyByIdSpy.surveyModel?.answers[0].answer);
-    const httpResponse = await sut.handle(httpRequest);
+    const request = mockRequest(loadSurveyByIdSpy.surveyModel?.answers[0].answer);
+    const httpResponse = await sut.handle(request);
     expect(httpResponse).toEqual(serverError(new Error()));
   });
 
   test('Should return 200 on success', async () => {
     const { sut, saveSurveyResultSpy, loadSurveyByIdSpy } = makeSut();
-    const httpRequest = mockRequest(loadSurveyByIdSpy.surveyModel?.answers[0].answer);
-    const httpResponse = await sut.handle(httpRequest);
+    const request = mockRequest(loadSurveyByIdSpy.surveyModel?.answers[0].answer);
+    const httpResponse = await sut.handle(request);
     expect(httpResponse).toEqual(ok(saveSurveyResultSpy.surveyResultModel));
   });
 });

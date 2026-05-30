@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
 import type { LoadSurveyById, SaveSurveyResult } from '@/domain/usecases';
-import type { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols';
+import type { Controller, HttpResponse } from '@/presentation/protocols';
 
 import { InvalidParamError } from '@/presentation/errors';
 import { forbidden, ok, serverError } from '@/presentation/helpers/http-helper';
@@ -11,13 +9,9 @@ export class SaveSurveyResultController implements Controller {
     private readonly loadSurveyById: LoadSurveyById,
     private readonly saveSurveyResult: SaveSurveyResult,
   ) {}
-  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle(request: SaveSurveyResultController.Request): Promise<HttpResponse> {
     try {
-      const {
-        params: { surveyId },
-        body: { answer },
-        accountId,
-      } = httpRequest;
+      const { surveyId, answer, accountId } = request;
       const survey = await this.loadSurveyById.loadById(surveyId);
       if (survey) {
         const answers = survey.answers.map((a) => a.answer);
@@ -29,7 +23,7 @@ export class SaveSurveyResultController implements Controller {
       }
 
       const surveyResult = await this.saveSurveyResult.save({
-        accountId: accountId!,
+        accountId,
         surveyId,
         answer,
         date: new Date(),
@@ -40,4 +34,12 @@ export class SaveSurveyResultController implements Controller {
       return serverError(error instanceof Error ? error : new Error('Internal server error'));
     }
   }
+}
+
+export namespace SaveSurveyResultController {
+  export type Request = {
+    surveyId: string;
+    accountId: string;
+    answer: string;
+  };
 }

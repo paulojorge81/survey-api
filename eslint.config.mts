@@ -41,7 +41,8 @@ export default defineConfig([
       '@typescript-eslint/no-unsafe-argument': 'off',
       "@typescript-eslint/consistent-type-definitions": "off",
       '@eslint-community/eslint-comments/require-description': 'off',
-      '@typescript-eslint/no-unsafe-call': 'off'
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-namespace': 'off'
     },
   },
 

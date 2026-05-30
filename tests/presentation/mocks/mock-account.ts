@@ -1,52 +1,20 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { faker } from '@faker-js/faker';
 
 import type { AccountModel } from '@/domain/models/account';
 import type { AuthenticationModel } from '@/domain/models/authentication';
-import type { AddAccount, AddAccountParams } from '@/domain/usecases/add-account';
+import type { AddAccount } from '@/domain/usecases/add-account';
 import type { Authentication, AuthenticationParams } from '@/domain/usecases/authentication';
 import type { LoadAccountByToken } from '@/domain/usecases/load-account-by-token';
 
 import { mockAccountModel } from '@/tests/domain/mocks';
 
-export const mockAddAccount = (): AddAccount => {
-  class AddAccountStub implements AddAccount {
-    async add(account: AddAccountParams): Promise<AccountModel | null> {
-      const fakeAccount = mockAccountModel();
-      return await Promise.resolve(fakeAccount);
-    }
-  }
-
-  return new AddAccountStub();
-};
-
-export const mockAuthentication = (): Authentication => {
-  class AuthenticationStub implements Authentication {
-    async auth(authentication: AuthenticationParams): Promise<AuthenticationModel> {
-      return await Promise.resolve({ accessToken: 'any_token', name: 'any_name' });
-    }
-  }
-
-  return new AuthenticationStub();
-};
-
-export const mockLoadAccountByToken = (): LoadAccountByToken => {
-  class LoadAccountByTokenStub implements LoadAccountByToken {
-    async load(accessToken: string, role?: string): Promise<AccountModel | null> {
-      return await Promise.resolve(mockAccountModel());
-    }
-  }
-
-  return new LoadAccountByTokenStub();
-};
-
 export class AddAccountSpy implements AddAccount {
-  accountModel: AccountModel | null = mockAccountModel();
-  addAccountParams!: AddAccountParams;
+  isValid = true;
+  addAccountParams!: AddAccount.Params;
 
-  async add(account: AddAccountParams): Promise<AccountModel | null> {
+  async add(account: AddAccount.Params): Promise<AddAccount.Result | null> {
     this.addAccountParams = account;
-    return await Promise.resolve(this.accountModel);
+    return await Promise.resolve(this.isValid);
   }
 }
 

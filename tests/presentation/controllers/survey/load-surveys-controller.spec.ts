@@ -1,8 +1,6 @@
 import { faker } from '@faker-js/faker';
 import MockDate from 'mockdate';
 
-import type { HttpRequest } from '@/presentation/protocols';
-
 import { LoadSurveysController } from '@/presentation/controllers/survey/load-surveys-controller';
 import { noContent, ok, serverError } from '@/presentation/helpers/http-helper';
 import { throwError } from '@/tests/domain/mocks';
@@ -13,7 +11,7 @@ type SutTypes = {
   loadSurveysSpy: LoadSurveysSpy;
 };
 
-const mockRequest = (): HttpRequest => ({ accountId: faker.string.uuid() });
+const mockRequest = (): LoadSurveysController.Request => ({ accountId: faker.string.uuid() });
 
 const makeSut = (): SutTypes => {
   const loadSurveysSpy = new LoadSurveysSpy();

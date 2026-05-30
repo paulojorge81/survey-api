@@ -1,5 +1,5 @@
 import type { LoadSurveyById, LoadSurveyResult } from '@/domain/usecases';
-import type { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols';
+import type { Controller, HttpResponse } from '@/presentation/protocols';
 
 import { InvalidParamError } from '@/presentation/errors';
 import { forbidden, ok, serverError } from '@/presentation/helpers/http-helper';
@@ -10,20 +10,24 @@ export class LoadSurveyResultController implements Controller {
     private readonly loadSurveyResult: LoadSurveyResult,
   ) {}
 
-  async handle(httpeRequest: HttpRequest): Promise<HttpResponse> {
+  async handle(request: LoadSurveyResultController.Request): Promise<HttpResponse> {
     try {
-      const {
-        params: { surveyId },
-        accountId,
-      } = httpeRequest;
+      const { surveyId, accountId } = request;
       const survey = await this.loadSurveyById.loadById(surveyId);
       if (!survey) {
         return forbidden(new InvalidParamError('surveyId'));
       }
-      const suvreyResult = await this.loadSurveyResult.load(surveyId, accountId ?? '');
+      const suvreyResult = await this.loadSurveyResult.load(surveyId, accountId);
       return ok(suvreyResult);
     } catch (error) {
       return serverError(error instanceof Error ? error : new Error('Internal server error'));
     }
   }
+}
+
+export namespace LoadSurveyResultController {
+  export type Request = {
+    surveyId: string;
+    accountId: string;
+  };
 }

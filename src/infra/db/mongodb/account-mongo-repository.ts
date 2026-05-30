@@ -7,14 +7,17 @@ import type {
   UpdateAccessTokenRepository,
 } from '@/data/protocols';
 import type { AccountModel } from '@/domain/models';
-import type { AddAccountParams } from '@/domain/usecases';
 
 import { type AccountMongoModel, MongoHelper } from '@/infra/db';
 
 export class AccountMongoRepository
-  // eslint-disable-next-line prettier/prettier
-  implements AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository {
-  async add(accountData: AddAccountParams): Promise<AccountModel> {
+  implements
+    AddAccountRepository,
+    LoadAccountByEmailRepository,
+    UpdateAccessTokenRepository,
+    LoadAccountByTokenRepository
+{
+  async add(accountData: AddAccountRepository.Params): Promise<AddAccountRepository.Result> {
     const accountCollection = await MongoHelper.getCollection('accounts');
     const accountToInsert = { ...accountData };
     const { insertedId } = await accountCollection.insertOne(accountToInsert);

@@ -1,5 +1,5 @@
 import type { Authentication } from '@/domain/usecases';
-import type { Controller, HttpRequest, HttpResponse, Validation } from '@/presentation/protocols';
+import type { Controller, HttpResponse, Validation } from '@/presentation/protocols';
 
 import { badRequest, ok, serverError, unauthorized } from '@/presentation/helpers/http-helper';
 
@@ -9,16 +9,14 @@ export class LoginController implements Controller {
     private readonly validation: Validation,
   ) {}
 
-  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle(request: LoginController.Request): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest.body);
+      const error = this.validation.validate(request);
       if (error) {
         return badRequest(error);
       }
 
-      const {
-        body: { email, password },
-      } = httpRequest;
+      const { email, password } = request;
 
       const athentictaionModel = await this.authentication.auth({ email, password });
 
@@ -31,4 +29,11 @@ export class LoginController implements Controller {
       return serverError(error instanceof Error ? error : new Error('Internal server error'));
     }
   }
+}
+
+export namespace LoginController {
+  export type Request = {
+    email: string;
+    password: string;
+  };
 }
