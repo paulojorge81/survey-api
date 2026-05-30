@@ -1,16 +1,14 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import type { AddSurveyRepository } from '@/data/protocols/db/survey/add-survey-repository';
 import type { LoadSurveyByIdRepository } from '@/data/protocols/db/survey/load-survey-by-id-repository';
 import type { LoadSurveysRepository } from '@/data/protocols/db/survey/load-surveys-repository';
 import type { SurveyModel } from '@/domain/models/surveys';
-import type { AddSurveyParams } from '@/domain/usecases/add-survey';
 
 import { mockSurveyModel, mockSurveyModels } from '@/tests/domain/mocks';
 
 export class AddSurveyRepositorySpy implements AddSurveyRepository {
-  addSurveyParams!: AddSurveyParams;
+  addSurveyParams!: AddSurveyRepository.Params;
 
-  async add(data: AddSurveyParams): Promise<void> {
+  async add(data: AddSurveyRepository.Params): Promise<void> {
     this.addSurveyParams = data;
     await Promise.resolve();
   }
