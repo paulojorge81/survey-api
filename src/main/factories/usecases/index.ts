@@ -3,7 +3,7 @@ export * from '@/main/factories/usecases/db-add-survey-factory';
 export * from '@/main/factories/usecases/db-authentication-factory';
 export * from '@/main/factories/usecases/db-check-survey-by-id-factory';
 export * from '@/main/factories/usecases/db-load-account-by-token-factory';
-export * from '@/main/factories/usecases/db-load-survey-by-id-factory';
+export * from '@/main/factories/usecases/db-load-answers-by-survey-factory';
 export * from '@/main/factories/usecases/db-load-survey-factory';
 export * from '@/main/factories/usecases/db-load-survey-result-factory';
 export * from '@/main/factories/usecases/db-save-survey-result-factory';

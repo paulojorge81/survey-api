@@ -1,10 +1,11 @@
+import { faker } from '@faker-js/faker';
+
 import type { SurveyModel } from '@/domain/models/surveys';
-import type { CheckSurveyById } from '@/domain/usecases';
+import type { CheckSurveyById, LoadAnswersBySurvey } from '@/domain/usecases';
 import type { AddSurvey } from '@/domain/usecases/add-survey';
-import type { LoadSurveyById } from '@/domain/usecases/load-survey-by-id';
 import type { LoadSurveys } from '@/domain/usecases/load-surveys';
 
-import { mockSurveyModel, mockSurveyModels } from '@/tests/domain/mocks';
+import { mockSurveyModels } from '@/tests/domain/mocks';
 
 export class AddSurveySpy implements AddSurvey {
   addSurveyParams!: AddSurvey.Params;
@@ -25,13 +26,13 @@ export class LoadSurveysSpy implements LoadSurveys {
   }
 }
 
-export class LoadSurveyByIdSpy implements LoadSurveyById {
-  surveyModel: SurveyModel | null = mockSurveyModel();
+export class LoadAnswersBySurveySpy implements LoadAnswersBySurvey {
+  result = [faker.word.words(), faker.word.words()];
   id!: string;
 
-  async loadById(id: string): Promise<SurveyModel | null> {
+  async loadAnswers(id: string): Promise<LoadAnswersBySurvey.Result> {
     this.id = id;
-    return await Promise.resolve(this.surveyModel);
+    return await Promise.resolve(this.result);
   }
 }
 

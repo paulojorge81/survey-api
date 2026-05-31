@@ -3,7 +3,7 @@ export * from '@/data/usecases/db-add-survey';
 export * from '@/data/usecases/db-authentication';
 export * from '@/data/usecases/db-check-survey-by-id';
 export * from '@/data/usecases/db-load-account-by-token';
-export * from '@/data/usecases/db-load-survey-by-id';
+export * from '@/data/usecases/db-load-answers-by-survey';
 export * from '@/data/usecases/db-load-survey-result';
 export * from '@/data/usecases/db-load-surveys';
 export * from '@/data/usecases/db-save-survey-result';

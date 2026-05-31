@@ -28,10 +28,10 @@ export class CheckSurveyByIdRepositorySpy implements CheckSurveyByIdRepository {
 }
 
 export class LoadSurveyByIdRepositorySpy implements LoadSurveyByIdRepository {
-  result = mockSurveyModel();
+  result: LoadSurveyByIdRepository.Result | null = mockSurveyModel();
   id!: string;
 
-  async loadById(id: string): Promise<LoadSurveyByIdRepository.Result> {
+  async loadById(id: string): Promise<LoadSurveyByIdRepository.Result | null> {
     this.id = id;
     return await Promise.resolve(this.result);
   }

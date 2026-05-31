@@ -64,10 +64,10 @@ describe('DbLoadSurveyResult UseCase', () => {
     const surveyResult = await sut.load(surveyId, accountId);
     const { result } = loadSurveyByIdRepositorySpy;
     expect(surveyResult).toEqual({
-      surveyId: result.id,
-      question: result.question,
-      date: result.date,
-      answers: result.answers.map((answer) => ({
+      surveyId: result?.id,
+      question: result?.question,
+      date: result?.date,
+      answers: result?.answers.map((answer) => ({
         ...answer,
         count: 0,
         percent: 0,
