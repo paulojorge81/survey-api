@@ -2,9 +2,9 @@
 import { faker } from '@faker-js/faker';
 
 import type { SurveyResultModel } from '@/domain/models/survey-result';
-import type { SaveSurveyResultParams } from '@/domain/usecases/save-survey-result';
+import type { SaveSurveyResult } from '@/domain/usecases';
 
-export const mockSaveSurveyResultParams = (): SaveSurveyResultParams => ({
+export const mockSaveSurveyResultParams = (): SaveSurveyResult.Params => ({
   accountId: faker.string.uuid(),
   surveyId: faker.string.uuid(),
   answer: faker.word.words(),
