@@ -2,6 +2,8 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import type { Collection } from 'mongodb';
 
+import FakeObjectId from 'bson-objectid';
+
 import { MongoHelper, type SurveyMongoModel } from '@/infra/db/mongodb/mongo-helper';
 import { SurveyMongoRepository } from '@/infra/db/mongodb/survey-mongo-repository';
 import { mockAddAccountParams, mockAddSurveyParams } from '@/tests/domain/mocks';
@@ -87,6 +89,22 @@ describe('Account Mongo Repository', () => {
       const survey = await sut.loadById(res.insertedId.toHexString());
       expect(survey).toBeTruthy();
       expect(survey?.id).toBeTruthy();
+    });
+  });
+
+  describe('checkById()', () => {
+    test('Should return true if survey exists', async () => {
+      const sut = makeSut();
+      const res = await surveyCollection.insertOne(mockAddSurveyParams());
+      const exists = await sut.checkById(res.insertedId.toHexString());
+      expect(exists).toBe(true);
+    });
+
+    test('Should return true if survey exists', async () => {
+      const sut = makeSut();
+      const id = FakeObjectId();
+      const exists = await sut.checkById(id.toHexString());
+      expect(exists).toBe(false);
     });
   });
 });

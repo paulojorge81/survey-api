@@ -1,10 +1,10 @@
 import type { Controller } from '@/presentation/protocols';
 
 import { makeLogControllerDecorator } from '@/main/factories/decorators';
-import { makeDbLoadSurveyById, makeDbLoadSurveyResult } from '@/main/factories/usecases';
+import { makeDbCheckSurveyById, makeDbLoadSurveyResult } from '@/main/factories/usecases';
 import { LoadSurveyResultController } from '@/presentation/controllers';
 
 export const makeLoadSurveyResultController = (): Controller => {
-  const controller = new LoadSurveyResultController(makeDbLoadSurveyById(), makeDbLoadSurveyResult());
+  const controller = new LoadSurveyResultController(makeDbCheckSurveyById(), makeDbLoadSurveyResult());
   return makeLogControllerDecorator(controller);
 };

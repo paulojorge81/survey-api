@@ -1,5 +1,5 @@
 export interface CheckAccountByEmailRepository {
-  checkByEmail: (email: string) => Promise<CheckAccountByEmailRepository.Result | null>;
+  checkByEmail: (email: string) => Promise<CheckAccountByEmailRepository.Result>;
 }
 
 export namespace CheckAccountByEmailRepository {

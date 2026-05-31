@@ -33,10 +33,10 @@ export class LoadAccountByEmailRepositorySpy implements LoadAccountByEmailReposi
 }
 
 export class CheckAccountByEmailRepositorySpy implements CheckAccountByEmailRepository {
-  result: CheckAccountByEmailRepository.Result | null = false;
+  result: CheckAccountByEmailRepository.Result = false;
   email!: string;
 
-  async checkByEmail(email: string): Promise<CheckAccountByEmailRepository.Result | null> {
+  async checkByEmail(email: string): Promise<CheckAccountByEmailRepository.Result> {
     this.email = email;
     return await Promise.resolve(this.result);
   }

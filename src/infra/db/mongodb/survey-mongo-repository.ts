@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { ObjectId } from 'mongodb';
 
-import type { AddSurveyRepository, LoadSurveyByIdRepository } from '@/data/protocols';
+import type { AddSurveyRepository, LoadSurveyByIdRepository, CheckSurveyByIdRepository } from '@/data/protocols';
 import type { LoadSurveysRepository } from '@/data/protocols/db/survey/load-surveys-repository';
 import type { SurveyModel } from '@/domain/models/surveys';
 
 import { QueryBuilder } from '@/infra/db';
 import { MongoHelper, type SurveyMongoModel } from '@/infra/db/mongodb/mongo-helper';
 
-export class SurveyMongoRepository implements AddSurveyRepository, LoadSurveysRepository, LoadSurveyByIdRepository {
+export class SurveyMongoRepository
+  implements AddSurveyRepository, LoadSurveysRepository, LoadSurveyByIdRepository, CheckSurveyByIdRepository
+{
   async add(data: AddSurveyRepository.Params): Promise<void> {
     const surveyCollection = await MongoHelper.getCollection('surveys');
     await surveyCollection.insertOne(data);
@@ -52,7 +54,13 @@ export class SurveyMongoRepository implements AddSurveyRepository, LoadSurveysRe
     return MongoHelper.mapCollection(surveys);
   }
 
-  async loadById(id: string): Promise<SurveyModel | null> {
+  async checkById(id: string): Promise<CheckSurveyByIdRepository.Result> {
+    const surveyCollection = await MongoHelper.getCollection<SurveyMongoModel>('surveys');
+    const survey = await surveyCollection.findOne({ _id: new ObjectId(id) }, { projection: { _id: 1 } });
+    return survey !== null;
+  }
+
+  async loadById(id: string): Promise<LoadSurveyByIdRepository.Result | null> {
     const surveyCollection = await MongoHelper.getCollection<SurveyMongoModel>('surveys');
     const survey = await surveyCollection.findOne({ _id: new ObjectId(id) });
     if (!survey) return null;

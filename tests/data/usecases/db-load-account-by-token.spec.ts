@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { faker } from '@faker-js/faker';
 
-import { DbLoadAccountByToken } from '@/data/usecases/db-load-account-by-token';
+import { DbLoadAccountByToken } from '@/data/usecases';
 import { DecrypterSpy, LoadAccountByTokenRepositorySpy } from '@/tests/data/mocks';
 import { throwError } from '@/tests/domain/mocks';
 

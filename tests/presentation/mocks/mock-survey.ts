@@ -1,4 +1,5 @@
 import type { SurveyModel } from '@/domain/models/surveys';
+import type { CheckSurveyById } from '@/domain/usecases';
 import type { AddSurvey } from '@/domain/usecases/add-survey';
 import type { LoadSurveyById } from '@/domain/usecases/load-survey-by-id';
 import type { LoadSurveys } from '@/domain/usecases/load-surveys';
@@ -31,5 +32,15 @@ export class LoadSurveyByIdSpy implements LoadSurveyById {
   async loadById(id: string): Promise<SurveyModel | null> {
     this.id = id;
     return await Promise.resolve(this.surveyModel);
+  }
+}
+
+export class CheckSurveyByIdSpy implements CheckSurveyById {
+  result: CheckSurveyById.Result = true;
+  id!: string;
+
+  async checkById(id: string): Promise<CheckSurveyById.Result> {
+    this.id = id;
+    return await Promise.resolve(this.result);
   }
 }

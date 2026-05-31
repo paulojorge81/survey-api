@@ -26,7 +26,7 @@ export class AccountMongoRepository
     return !!result.insertedId;
   }
 
-  async checkByEmail(email: string): Promise<CheckAccountByEmailRepository.Result | null> {
+  async checkByEmail(email: string): Promise<CheckAccountByEmailRepository.Result> {
     const accountColletion = await MongoHelper.getCollection<AccountMongoModel>('accounts');
     const account = await accountColletion.findOne({ email }, { projection: { _id: 1 } });
     return account !== null;

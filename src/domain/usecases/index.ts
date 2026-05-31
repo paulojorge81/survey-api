@@ -1,6 +1,7 @@
 export type * from '@/domain/usecases/add-account';
 export type * from '@/domain/usecases/add-survey';
 export type * from '@/domain/usecases/authentication';
+export type * from '@/domain/usecases/check-survey-by-id';
 export type * from '@/domain/usecases/load-account-by-token';
 export type * from '@/domain/usecases/load-survey-by-id';
 export type * from '@/domain/usecases/load-survey-result';
