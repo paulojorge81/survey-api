@@ -1,8 +1,11 @@
+import { faker } from '@faker-js/faker';
+
 import type {
   AddSurveyRepository,
   LoadSurveyByIdRepository,
   LoadSurveysRepository,
   CheckSurveyByIdRepository,
+  LoadAnswersBySurveyRepository,
 } from '@/data/protocols';
 import type { SurveyModel } from '@/domain/models/surveys';
 
@@ -32,6 +35,16 @@ export class LoadSurveyByIdRepositorySpy implements LoadSurveyByIdRepository {
   id!: string;
 
   async loadById(id: string): Promise<LoadSurveyByIdRepository.Result | null> {
+    this.id = id;
+    return await Promise.resolve(this.result);
+  }
+}
+
+export class LoadAnswersBySurveyRepositorySpy implements LoadAnswersBySurveyRepository {
+  result: LoadAnswersBySurveyRepository.Result = [faker.word.words(), faker.word.words()];
+  id!: string;
+
+  async loadAnswers(id: string): Promise<LoadAnswersBySurveyRepository.Result> {
     this.id = id;
     return await Promise.resolve(this.result);
   }
