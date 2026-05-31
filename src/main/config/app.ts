@@ -1,5 +1,6 @@
 import express from 'express';
 
+import { setupApolloServer } from '@/main/config/apollo-server';
 import { setupMiddlewares } from '@/main/config/middlewares';
 import { setupRoutes } from '@/main/config/routes';
 import { setupStaticFiles } from '@/main/config/static-files';
@@ -11,6 +12,7 @@ const start = async (): Promise<void> => {
   setupStaticFiles(app);
   setupSwagger(app);
   setupMiddlewares(app);
+  await setupApolloServer(app);
   await setupRoutes(app);
 };
 
