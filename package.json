@@ -18,7 +18,7 @@
     "test:verbose": "jest --passWithNoTests",
     "test:unit": "pnpm test --watch -c jest-unit.config.js",
     "test:integration": "pnpm test --watch -c jest-integration.config.js",
-    "test:staged": "pnpm test --findRelatedTests",
+    "test:staged": "pnpm test -- --findRelatedTests",
     "test:ci": "pnpm test --coverage",
     "prepare": "husky"
   },

@@ -8,7 +8,6 @@ import type {
   LoadAnswersBySurveyRepository,
 } from '@/data/protocols';
 import type { LoadSurveysRepository } from '@/data/protocols/db/survey/load-surveys-repository';
-import type { SurveyModel } from '@/domain/models/surveys';
 
 import { QueryBuilder } from '@/infra/db';
 import { MongoHelper, type SurveyMongoModel } from '@/infra/db/mongodb/mongo-helper';
@@ -27,7 +26,7 @@ export class SurveyMongoRepository
     await Promise.resolve();
   }
 
-  async loadAll(accountId: string): Promise<SurveyModel[]> {
+  async loadAll(accountId: string): Promise<LoadSurveysRepository.Result> {
     const surveyCollection = await MongoHelper.getCollection<SurveyMongoModel>('surveys');
     const query = new QueryBuilder()
       .lookup({
