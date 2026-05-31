@@ -1,3 +1,3 @@
-import { loginResolver } from '@/main/graphql/resolvers/login';
+import { authResolver } from '@/main/graphql/resolvers/auth';
 
-export default [loginResolver];
+export default [authResolver];
