@@ -4,8 +4,9 @@ import type { Controller } from '@/presentation/protocols';
 
 import { HttpStatusCode } from '@/presentation/http';
 
-export const adaptResolver = async (controller: Controller, args: any): Promise<any> => {
-  const httpResponse = await controller.handle(args);
+export const adaptResolver = async (controller: Controller, args?: any): Promise<any> => {
+  const request = { ...(args ?? {}) };
+  const httpResponse = await controller.handle(request);
   switch (httpResponse.statusCode) {
     case HttpStatusCode.SUCCESS:
     case HttpStatusCode.NO_CONTENT:

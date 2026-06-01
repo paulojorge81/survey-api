@@ -22,14 +22,14 @@ export const setupApolloServer = async (app: Express): Promise<void> => {
 };
 
 const statusCodePlugin: ApolloServerPlugin = {
-  async requestDidStart() {
-    return await Promise.resolve({
+  async requestDidStart({ request }) {
+    return {
       async willSendResponse({ response, errors }: any) {
         const code = errors?.[0]?.extensions?.code;
-        if (!response.http) {
+
+        if (!code) {
           return;
         }
-        response.data = undefined;
         switch (code) {
           case 'BAD_USER_INPUT':
             response.http.status = HttpStatusCode.BAD_REQUEST;
@@ -45,6 +45,6 @@ const statusCodePlugin: ApolloServerPlugin = {
             break;
         }
       },
-    });
+    };
   },
 };
