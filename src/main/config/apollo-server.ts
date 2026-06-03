@@ -18,7 +18,14 @@ export const setupApolloServer = async (app: Express): Promise<void> => {
     plugins: [statusCodePlugin],
   });
   await server.start();
-  app.use('/graphql', expressMiddleware(server));
+  app.use(
+    '/graphql',
+    expressMiddleware(server, {
+      context: async ({ req }) => ({
+        req,
+      }),
+    }),
+  );
 };
 
 const statusCodePlugin: ApolloServerPlugin = {
