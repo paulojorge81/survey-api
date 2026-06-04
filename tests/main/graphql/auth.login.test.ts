@@ -104,5 +104,35 @@ describe('Auth GraphQL', () => {
       expect(data.signUp.accessToken).toBeTruthy();
       expect(data.signUp.name).toBe('Paulo Lopes');
     });
+
+    test('Should return EmailInUseError on invalid data', async () => {
+      const salt = 12;
+      const password = await hash('123', salt);
+      const accountData = {
+        name: 'Paulo',
+        email: 'paulo@mail.com',
+        password,
+      };
+      await accountCollection.insertOne(accountData);
+      const app = await makeApp();
+      const {
+        body: { data, errors },
+      } = await request(app)
+        .post('/graphql')
+        .send({
+          query: `
+            mutation {
+                signUp (name: "Paulo Lopes",  email: "paulo@mail.com", password: "123123", passwordConfirmation: "123123") {
+                    accessToken
+                    name
+                }
+            }
+          `,
+        })
+        .expect(HttpStatusCode.FORBIDDEN);
+
+      expect(data).toBeFalsy();
+      expect(errors[0].message).toBe('The received email is already in use');
+    });
   });
 });
