@@ -17,8 +17,10 @@ export class LoadSurveyResultController implements Controller {
       if (!exists) {
         return forbidden(new InvalidParamError('surveyId'));
       }
-      const suvreyResult = await this.loadSurveyResult.load(surveyId, accountId);
-      return ok(suvreyResult);
+
+      const surveyResult = await this.loadSurveyResult.load(surveyId, accountId);
+
+      return ok(surveyResult);
     } catch (error) {
       return serverError(error instanceof Error ? error : new Error('Internal server error'));
     }

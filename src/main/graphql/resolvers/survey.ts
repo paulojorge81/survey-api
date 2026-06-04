@@ -5,6 +5,8 @@ import { authenticated } from '@/main/graphql/helpers/authenticated-helper';
 
 export const surveyResolver = {
   Query: {
-    surveys: authenticated(async (parent: any, args: any) => await adaptResolver(makeLoadSurveyController(), args)),
+    surveys: authenticated(
+      async (parent: any, args: any, context: any) => await adaptResolver(makeLoadSurveyController(), args, context),
+    ),
   },
 };
