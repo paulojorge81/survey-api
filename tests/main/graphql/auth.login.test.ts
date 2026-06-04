@@ -39,7 +39,9 @@ describe('Auth GraphQL', () => {
       };
       await accountCollection.insertOne(accountData);
       const app = await makeApp();
-      const response = await request(app)
+      const {
+        body: { data },
+      } = await request(app)
         .post('/graphql')
         .send({
           query: `
@@ -53,28 +55,54 @@ describe('Auth GraphQL', () => {
         })
         .expect(HttpStatusCode.SUCCESS);
 
-      expect(response.body.data.login.accessToken).toBeTruthy();
-      expect(response.body.data.login.name).toBe('Paulo');
+      expect(data.login.accessToken).toBeTruthy();
+      expect(data.login.name).toBe('Paulo');
+    });
+
+    test('Should return UnauthorizedError on invalid credentials', async () => {
+      const app = await makeApp();
+      const {
+        body: { data, errors },
+      }: any = await request(app)
+        .post('/graphql')
+        .send({
+          query: `
+              query {
+                login (email: "paulo@mail.com", password: "123") {
+                    accessToken
+                    name
+                }
+              }
+            `,
+        })
+        .expect(HttpStatusCode.UNAUTHORIZED);
+
+      expect(data).toBeFalsy();
+      expect(errors[0].message).toBe('Unauthorized');
     });
   });
 
-  test('Should return UnauthorizedError on invalid credentials', async () => {
-    const app = await makeApp();
-    const response: any = await request(app)
-      .post('/graphql')
-      .send({
-        query: `
-            query {
-              login (email: "paulo@mail.com", password: "123") {
-                  accessToken
-                  name
-              }
+  describe('SignUp Mutation', () => {
+    test('Should return an Accout on valid data', async () => {
+      const app = await makeApp();
+      const {
+        body: { data },
+      } = await request(app)
+        .post('/graphql')
+        .send({
+          query: `
+            mutation {
+                signUp (name: "Paulo Lopes",  email: "paulolopes@email.com", password: "123123", passwordConfirmation: "123123") {
+                    accessToken
+                    name
+                }
             }
           `,
-      })
-      .expect(HttpStatusCode.UNAUTHORIZED);
+        })
+        .expect(HttpStatusCode.SUCCESS);
 
-    expect(response.body.data).toBeFalsy();
-    expect(response.body.errors[0].message).toBe('Unauthorized');
+      expect(data.signUp.accessToken).toBeTruthy();
+      expect(data.signUp.name).toBe('Paulo Lopes');
+    });
   });
 });
