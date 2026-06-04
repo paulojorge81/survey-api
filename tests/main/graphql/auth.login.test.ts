@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 import type { Collection } from 'mongodb';
 
 import { hash } from 'bcrypt';
@@ -55,5 +56,25 @@ describe('Auth GraphQL', () => {
       expect(response.body.data.login.accessToken).toBeTruthy();
       expect(response.body.data.login.name).toBe('Paulo');
     });
+  });
+
+  test('Should return UnauthorizedError on invalid credentials', async () => {
+    const app = await makeApp();
+    const response: any = await request(app)
+      .post('/graphql')
+      .send({
+        query: `
+            query {
+              login (email: "paulo@mail.com", password: "123") {
+                  accessToken
+                  name
+              }
+            }
+          `,
+      })
+      .expect(HttpStatusCode.UNAUTHORIZED);
+
+    expect(response.body.data).toBeFalsy();
+    expect(response.body.errors[0].message).toBe('Unauthorized');
   });
 });
