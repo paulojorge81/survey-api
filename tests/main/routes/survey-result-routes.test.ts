@@ -4,7 +4,7 @@ import { ObjectId, type Collection } from 'mongodb';
 import request from 'supertest';
 
 import { MongoHelper } from '@/infra/db/mongodb/mongo-helper';
-import { app } from '@/main/config/app';
+import { makeApp } from '@/main/config/app';
 import { env } from '@/main/config/env';
 import { HttpStatusCode } from '@/presentation/http/http-status-code';
 
@@ -52,9 +52,9 @@ describe('Survey Results Routes', () => {
 
   describe('PUT /surveys/:surveyId/results', () => {
     test('Should return 403 on save surveys without accessToken', async () => {
-      const route = '/api/surveys/any_id/results';
+      const app = await makeApp();
       await request(app)
-        .put(route)
+        .put('/api/surveys/any_id/results')
         .send({
           answer: 'any_answer',
         })
@@ -62,6 +62,7 @@ describe('Survey Results Routes', () => {
     });
 
     test('Should return 200 on save survey result with accessToken', async () => {
+      const app = await makeApp();
       const accessToken = await makeAccessToken();
       const res = await surveyCollection.insertOne({
         question: 'Question',
@@ -77,10 +78,8 @@ describe('Survey Results Routes', () => {
         date: new Date(),
       });
 
-      const route = `/api/surveys/${res.insertedId.toHexString()}/results`;
-
       await request(app)
-        .put(route)
+        .put(`/api/surveys/${res.insertedId.toHexString()}/results`)
         .set('x-access-token', accessToken)
         .send({
           answer: 'answer 1',
@@ -91,11 +90,12 @@ describe('Survey Results Routes', () => {
 
   describe('GET /surveys/:surveyId/results', () => {
     test('Should return 403 on load surveys without accessToken', async () => {
-      const route = '/api/surveys/any_id/results';
-      await request(app).get(route).expect(HttpStatusCode.FORBIDDEN);
+      const app = await makeApp();
+      await request(app).get('/api/surveys/any_id/results').expect(HttpStatusCode.FORBIDDEN);
     });
 
     test('Should return 200 on load survey result with accessToken', async () => {
+      const app = await makeApp();
       const accessToken = await makeAccessToken();
       const res = await surveyCollection.insertOne({
         question: 'Question',
@@ -111,9 +111,10 @@ describe('Survey Results Routes', () => {
         date: new Date(),
       });
 
-      const route = `/api/surveys/${res.insertedId.toHexString()}/results`;
-
-      await request(app).get(route).set('x-access-token', accessToken).expect(HttpStatusCode.SUCCESS);
+      await request(app)
+        .get(`/api/surveys/${res.insertedId.toHexString()}/results`)
+        .set('x-access-token', accessToken)
+        .expect(HttpStatusCode.SUCCESS);
     });
   });
 });

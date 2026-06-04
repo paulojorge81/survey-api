@@ -5,7 +5,7 @@ import { ObjectId, type Collection } from 'mongodb';
 import request from 'supertest';
 
 import { MongoHelper } from '@/infra/db/mongodb/mongo-helper';
-import { app } from '@/main/config/app';
+import { makeApp } from '@/main/config/app';
 import { env } from '@/main/config/env';
 import { HttpStatusCode } from '@/presentation/http/http-status-code';
 
@@ -53,9 +53,9 @@ describe('Login Routes', () => {
 
   describe('POST /surveys', () => {
     test('Should return 403 on add surveys without accessToken', async () => {
-      const route = '/api/surveys';
+      const app = await makeApp();
       await request(app)
-        .post(route)
+        .post('/api/surveys')
         .send({
           question: 'Question',
           answers: [
@@ -72,10 +72,10 @@ describe('Login Routes', () => {
     });
 
     test('Should return 204 on add surveys with valid accessToken', async () => {
+      const app = await makeApp();
       const accessToken = await makeAccessToken();
-      const route = '/api/surveys';
       await request(app)
-        .post(route)
+        .post('/api/surveys')
         .set('x-access-token', accessToken)
         .send({
           question: 'Question',
@@ -94,14 +94,14 @@ describe('Login Routes', () => {
   });
   describe('GET /surveys', () => {
     test('Should return 403 on load surveys without accessToken', async () => {
-      const route = '/api/surveys';
-      await request(app).get(route).expect(HttpStatusCode.FORBIDDEN);
+      const app = await makeApp();
+      await request(app).get('/api/surveys').expect(HttpStatusCode.FORBIDDEN);
     });
 
     test('Should return 204 on load surveys with valid accessToken', async () => {
+      const app = await makeApp();
       const accessToken = await makeAccessToken();
-      const route = '/api/surveys';
-      await request(app).get(route).set('x-access-token', accessToken).expect(HttpStatusCode.NO_CONTENT);
+      await request(app).get('/api/surveys').set('x-access-token', accessToken).expect(HttpStatusCode.NO_CONTENT);
     });
   });
 });

@@ -1,10 +1,11 @@
 import request from 'supertest';
 
-import { app } from '@/main/config/app';
+import { makeApp } from '@/main/config/app';
 import { noCache } from '@/main/middlewares/no-cache';
 
 describe('NoCache Middlewares', () => {
   test('Should disable cache', async () => {
+    const app = await makeApp();
     const route = '/test_no_cache';
     app.get(route, noCache, (req, res) => {
       res.send();

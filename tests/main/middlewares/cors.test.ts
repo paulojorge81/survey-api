@@ -1,9 +1,10 @@
 import request from 'supertest';
 
-import { app } from '@/main/config/app';
+import { makeApp } from '@/main/config/app';
 
 describe('CORS Middlewares', () => {
   test('Should enable CORS', async () => {
+    const app = await makeApp();
     const route = '/test_cors';
     app.get(route, (req, res) => {
       res.send();
