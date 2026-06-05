@@ -105,8 +105,8 @@ describe('Account Mongo Repository', () => {
       };
 
       await surveyResultCollection.insertMany([
-        { ...surveyData, accountId },
-        { ...surveyData, accountId: accountId2 },
+        { ...surveyData, accountId: new ObjectId(accountId) },
+        { ...surveyData, accountId: new ObjectId(accountId2) },
       ]);
       const sut = makeSut();
       const surveyResult = await sut.loadBySurveyId(survey!.id, accountId);
@@ -133,8 +133,8 @@ describe('Account Mongo Repository', () => {
 
       await surveyResultCollection.insertMany([
         { ...surveyData, answer: survey!.answers[0].answer, accountId: new ObjectId(accountId) },
-        { ...surveyData, answer: survey!.answers[1].answer, accountId: accountId2 },
-        { ...surveyData, answer: survey!.answers[1].answer, accountId: accountId3 },
+        { ...surveyData, answer: survey!.answers[1].answer, accountId: new ObjectId(accountId2) },
+        { ...surveyData, answer: survey!.answers[1].answer, accountId: new ObjectId(accountId3) },
       ]);
       const sut = makeSut();
       const surveyResult = await sut.loadBySurveyId(survey!.id, accountId2);
@@ -160,8 +160,8 @@ describe('Account Mongo Repository', () => {
       };
 
       await surveyResultCollection.insertMany([
-        { ...surveyData, answer: survey!.answers[0].answer, accountId },
-        { ...surveyData, answer: survey!.answers[1].answer, accountId: accountId2 },
+        { ...surveyData, answer: survey!.answers[0].answer, accountId: new ObjectId(accountId) },
+        { ...surveyData, answer: survey!.answers[1].answer, accountId: new ObjectId(accountId2) },
       ]);
       const sut = makeSut();
       const surveyResult = await sut.loadBySurveyId(survey!.id, accountId3);

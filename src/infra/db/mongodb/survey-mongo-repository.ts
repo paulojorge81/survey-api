@@ -26,7 +26,7 @@ export class SurveyMongoRepository
     await Promise.resolve();
   }
 
-  async loadAll(accountId: string | ObjectId): Promise<LoadSurveysRepository.Result> {
+  async loadAll(accountId: string): Promise<LoadSurveysRepository.Result> {
     const surveyCollection = await MongoHelper.getCollection<SurveyMongoModel>('surveys');
     const accountObjectId = new ObjectId(accountId);
     const query = new QueryBuilder()

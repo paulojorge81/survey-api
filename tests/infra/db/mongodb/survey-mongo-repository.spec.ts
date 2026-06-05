@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/init-declarations */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import type { Collection } from 'mongodb';
-
 import FakeObjectId from 'bson-objectid';
+import { ObjectId, type Collection } from 'mongodb';
 
 import { MongoHelper, type SurveyMongoModel } from '@/infra/db/mongodb/mongo-helper';
 import { SurveyMongoRepository } from '@/infra/db/mongodb/survey-mongo-repository';
@@ -57,13 +56,13 @@ describe('Account Mongo Repository', () => {
       const survey = await surveyCollection.findOne<SurveyMongoModel>({
         _id: result.insertedIds[0],
       });
-
       await surveyResultCollection.insertOne({
         surveyId: survey?._id,
-        accountId,
+        accountId: new ObjectId(accountId),
         answer: survey?.answers[0].answer,
         date: new Date(),
       });
+
       const sut = makeSut();
       const surveys = await sut.loadAll(accountId);
       expect(surveys.length).toBe(2);
