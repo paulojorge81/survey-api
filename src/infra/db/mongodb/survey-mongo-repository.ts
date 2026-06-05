@@ -26,8 +26,9 @@ export class SurveyMongoRepository
     await Promise.resolve();
   }
 
-  async loadAll(accountId: string): Promise<LoadSurveysRepository.Result> {
+  async loadAll(accountId: string | ObjectId): Promise<LoadSurveysRepository.Result> {
     const surveyCollection = await MongoHelper.getCollection<SurveyMongoModel>('surveys');
+    const accountObjectId = new ObjectId(accountId);
     const query = new QueryBuilder()
       .lookup({
         from: 'surveyResults',
@@ -48,7 +49,7 @@ export class SurveyMongoRepository
                   input: '$result',
                   as: 'item',
                   cond: {
-                    $eq: ['$$item.accountId', accountId],
+                    $eq: ['$$item.accountId', accountObjectId],
                   },
                 },
               },
@@ -65,22 +66,25 @@ export class SurveyMongoRepository
 
   async checkById(id: string): Promise<CheckSurveyByIdRepository.Result> {
     const surveyCollection = await MongoHelper.getCollection<SurveyMongoModel>('surveys');
-    const survey = await surveyCollection.findOne({ _id: new ObjectId(id) }, { projection: { _id: 1 } });
+    const checkObjectId = new ObjectId(id);
+    const survey = await surveyCollection.findOne({ _id: checkObjectId }, { projection: { _id: 1 } });
     return survey !== null;
   }
 
   async loadById(id: string): Promise<LoadSurveyByIdRepository.Result | null> {
     const surveyCollection = await MongoHelper.getCollection<SurveyMongoModel>('surveys');
-    const survey = await surveyCollection.findOne({ _id: new ObjectId(id) });
+    const loadObjectId = new ObjectId(id);
+    const survey = await surveyCollection.findOne({ _id: loadObjectId });
     if (!survey) return null;
     return MongoHelper.mapModel(survey);
   }
 
   async loadAnswers(id: string): Promise<LoadAnswersBySurveyRepository.Result> {
     const surveyCollection = await MongoHelper.getCollection<SurveyMongoModel>('surveys');
+    const loadObjectId = new ObjectId(id);
     const query = new QueryBuilder()
       .match({
-        _id: new ObjectId(id),
+        _id: loadObjectId,
       })
       .project({
         _id: 0,

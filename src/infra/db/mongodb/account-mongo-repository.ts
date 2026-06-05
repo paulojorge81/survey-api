@@ -21,8 +21,7 @@ export class AccountMongoRepository
 {
   async add(accountData: AddAccountRepository.Params): Promise<AddAccountRepository.Result> {
     const accountCollection = await MongoHelper.getCollection('accounts');
-    const accountToInsert = { ...accountData };
-    const result = await accountCollection.insertOne(accountToInsert);
+    const result = await accountCollection.insertOne(accountData);
     return !!result.insertedId;
   }
 
