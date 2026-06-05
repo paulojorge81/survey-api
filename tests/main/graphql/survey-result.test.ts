@@ -153,4 +153,64 @@ describe('SurveyResult GraphQL', () => {
       expect(errors[0].message).toBe('Access denied');
     });
   });
+
+  describe('SaveSurveyResult Query', () => {
+    test('Should return SurveyResult', async () => {
+      const now = new Date();
+      const accessToken = await makeAccessToken();
+      const res = await surveyCollection.insertOne({
+        question: 'Question',
+        answers: [
+          {
+            image: 'http://image-name.com',
+            answer: 'answer 1',
+          },
+          {
+            answer: 'answer 2',
+          },
+        ],
+        date: now,
+      });
+      const app = await makeApp();
+      const {
+        body: { data },
+      } = await request(app)
+        .post('/graphql')
+        .set('x-access-token', accessToken)
+        .send({
+          query: `
+            mutation {
+              saveSurveyResult (surveyId: "${res.insertedId.toHexString()}", answer: "answer 2") {
+                  question
+                  answers {
+                      answer
+                      count
+                      percent
+                      isCurrentAccountAnswer
+                  }
+                  date
+              }
+            }
+          `,
+        })
+        .expect(HttpStatusCode.SUCCESS);
+
+      expect(data.saveSurveyResult.question).toBe('Question');
+      expect(data.saveSurveyResult.date).toBe(now.toISOString());
+      expect(data.saveSurveyResult.answers).toEqual([
+        {
+          answer: 'answer 2',
+          count: 1,
+          isCurrentAccountAnswer: true,
+          percent: 100,
+        },
+        {
+          answer: 'answer 1',
+          count: 0,
+          isCurrentAccountAnswer: false,
+          percent: 0,
+        },
+      ]);
+    });
+  });
 });
